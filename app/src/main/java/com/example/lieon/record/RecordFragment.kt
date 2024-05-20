@@ -13,12 +13,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import com.example.lieon.R
+import com.example.lieon.databinding.FragmentRecordBinding
+import java.io.FileDescriptor
 import java.io.IOException
 
 class RecordFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var _binding : FragmentRecordBinding? = null
+    private val binding : FragmentRecordBinding get() = _binding!!
+
+    private var audioRecorder : AudioRecorder? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentRecordBinding.inflate(inflater,container,false)
         ActivityCompat.requestPermissions(
             this.requireActivity(), arrayOf(
                 Manifest.permission.RECORD_AUDIO,
@@ -27,14 +38,30 @@ class RecordFragment : Fragment() {
             )
             , 100
         )
+
+        binding.recordButton.setOnClickListener {
+            audioRecorder = AudioRecorder(getFilePath())
+            createFileUri().path?.let { it -> audioRecorder!!.record() }
+        }
+
+        binding.stopButton.setOnClickListener {
+            audioRecorder!!.stop()
+            audioRecorder = null
+        }
+
+        return binding.root
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_record, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
+    private fun getFilePath(): FileDescriptor {
+        val uri = createFileUri();
+
+        val pfd = requireContext().contentResolver.openFileDescriptor(uri,"w")
+            ?: throw IOException("Cannot open file descriptor for URI : " + uri)
+        return pfd.fileDescriptor
     }
 
     private fun createFileUri() : Uri{
@@ -44,10 +71,9 @@ class RecordFragment : Fragment() {
         values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MUSIC + "/RecordExample")
 
         val uri = requireContext().contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
-        if (uri == null){
-            throw IOException("파일 경로 생성 오류 발생")
-        }
+            ?: throw IOException("파일 경로 생성 오류 발생")
         return uri
     }
+
 
 }
