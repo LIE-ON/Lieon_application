@@ -10,11 +10,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.lieon.R
 import com.example.lieon.databinding.ActivityMainBinding
+import com.example.lieon.db.AppDatabase
+import com.example.lieon.db.OfflineRecordRepository
+import com.example.lieon.db.RecordRepository
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
