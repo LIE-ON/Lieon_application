@@ -8,15 +8,14 @@ class RecordViewModel : ViewModel() {
 
     private val _startRecordTime = MutableLiveData<Long>()
 
-    private val startRecordTime : LiveData<Long> get() = startRecordTime
+    private val startRecordTime: LiveData<Long> get() = startRecordTime
 
     private val endRecordTime = MutableLiveData<Long>()
 
-    private val _endRecordTime : LiveData<Long> get() = endRecordTime
+    private val _endRecordTime: LiveData<Long> get() = endRecordTime
 
 
     init {
 
     }
-
 }
