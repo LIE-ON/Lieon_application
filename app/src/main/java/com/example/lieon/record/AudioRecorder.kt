@@ -10,7 +10,6 @@ class AudioRecorder(
      fileDescriptor: FileDescriptor
 ) {
     private var recorder: MediaRecorder? = null
-
     init {
         recorder = MediaRecorder()
         recorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -18,7 +17,6 @@ class AudioRecorder(
         recorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
         recorder!!.setOutputFile(fileDescriptor)
     }
-
     fun record() {
         try {
             recorder!!.prepare()

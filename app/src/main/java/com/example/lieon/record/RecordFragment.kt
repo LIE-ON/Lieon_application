@@ -11,11 +11,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import com.example.lieon.R
 import com.example.lieon.databinding.FragmentRecordBinding
+import java.io.File
 import java.io.FileDescriptor
 import java.io.IOException
+import java.util.Date
 
 class RecordFragment : Fragment() {
 
@@ -23,7 +26,6 @@ class RecordFragment : Fragment() {
     private val binding : FragmentRecordBinding get() = _binding!!
 
     private var audioRecorder : AudioRecorder? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,14 +41,19 @@ class RecordFragment : Fragment() {
             , 100
         )
 
+        var startRecordTime : Long? = null
+        var endRecordTime : Long? = null
+
+        val recorder = AudioRecorder(getFilePath())
+
         binding.recordButton.setOnClickListener {
-            audioRecorder = AudioRecorder(getFilePath())
-            createFileUri().path?.let { it -> audioRecorder!!.record() }
+            recorder.record()
+            startRecordTime = System.currentTimeMillis()
         }
 
         binding.stopButton.setOnClickListener {
-            audioRecorder!!.stop()
-            audioRecorder = null
+            recorder.stop()
+            endRecordTime = System.currentTimeMillis()
         }
 
         return binding.root
@@ -75,5 +82,11 @@ class RecordFragment : Fragment() {
         return uri
     }
 
+    private fun createAudioRecorder(){
+    }
+
+    private fun file() : File {
+        return File(Environment.getExternalStorageDirectory(), "demo.wav");
+    }
 
 }
