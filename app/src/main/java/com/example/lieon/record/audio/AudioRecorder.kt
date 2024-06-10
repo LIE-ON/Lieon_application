@@ -4,34 +4,48 @@ import android.media.MediaRecorder
 import android.util.Log
 import java.io.FileDescriptor
 import java.io.IOException
+import java.lang.IllegalStateException
 
 class AudioRecorder(
-     fileDescriptor: FileDescriptor
+     private val fileDescriptor: FileDescriptor
 ) {
     private var recorder: MediaRecorder? = null
-    init {
-        recorder = MediaRecorder().apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-            setOutputFile(fileDescriptor)
-        }
-    }
+
     fun record() {
         try {
-            recorder!!.prepare()
-            recorder!!.start()
+            setRecorder()
+            recorder?.apply {
+                prepare()
+                start()
+            }
             Log.d("recorder", "record start")
         } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e : IllegalStateException){
             e.printStackTrace()
         }
     }
 
     fun stop() {
-        if (recorder != null) {
-            Log.d("recorder", "record stop")
-            recorder!!.stop()
-            recorder!!.reset()
+        recorder?.apply {
+            try{
+                stop()
+            } catch (e : IllegalStateException){
+                e.printStackTrace()
+            } finally {
+                reset()
+                release()
+                recorder = null
+            }
+        }
+    }
+
+    private fun setRecorder(){
+        recorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+            setOutputFile(fileDescriptor)
         }
     }
 
