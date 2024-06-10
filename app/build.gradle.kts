@@ -61,10 +61,11 @@ dependencies {
 
     implementation("androidx.annotation:annotation:1.7.0")
 
-    var room_version = "2.5.0"
+    var room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     implementation ("androidx.room:room-ktx:2.5.0")
 
     implementation ("com.google.dagger:hilt-android:2.44")
@@ -78,5 +79,5 @@ dependencies {
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("com.kailashdabhi:om-recorder:1.1.5")
+    implementation ("com.arthenica:mobile-ffmpeg-full:4.4")
 }

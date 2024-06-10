@@ -1,18 +1,10 @@
-package com.example.lieon.main
+package com.example.lieon
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.example.lieon.R
 import com.example.lieon.databinding.ActivityMainBinding
-import com.example.lieon.db.AppDatabase
-import com.example.lieon.db.OfflineRecordRepository
-import com.example.lieon.db.RecordRepository
 
 
 class MainActivity : AppCompatActivity() {

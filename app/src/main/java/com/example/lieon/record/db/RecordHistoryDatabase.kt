@@ -1,4 +1,4 @@
-package com.example.lieon.db
+package com.example.lieon.record.db
 
 import android.content.Context
 import androidx.room.Database
@@ -6,18 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [RecordHistory::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+abstract class RecordHistoryDatabase : RoomDatabase() {
     abstract fun recordHistoryDao(): RecordHistoryDao
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: RecordHistoryDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getInstance(context: Context): RecordHistoryDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
+                    RecordHistoryDatabase::class.java,
                     "record_history_database"
                 ).build()
                 INSTANCE = instance

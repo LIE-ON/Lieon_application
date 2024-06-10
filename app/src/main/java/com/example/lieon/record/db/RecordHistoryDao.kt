@@ -1,4 +1,4 @@
-package com.example.lieon.db
+package com.example.lieon.record.db
 
 import androidx.room.Dao
 import androidx.room.Delete

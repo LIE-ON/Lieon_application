@@ -1,7 +1,6 @@
-package com.example.lieon.record
+package com.example.lieon.record.audio
 
 import android.media.MediaRecorder
-import android.net.Uri
 import android.util.Log
 import java.io.FileDescriptor
 import java.io.IOException
@@ -11,11 +10,12 @@ class AudioRecorder(
 ) {
     private var recorder: MediaRecorder? = null
     init {
-        recorder = MediaRecorder()
-        recorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-        recorder!!.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS)
-        recorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-        recorder!!.setOutputFile(fileDescriptor)
+        recorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+            setOutputFile(fileDescriptor)
+        }
     }
     fun record() {
         try {
@@ -31,8 +31,7 @@ class AudioRecorder(
         if (recorder != null) {
             Log.d("recorder", "record stop")
             recorder!!.stop()
-            recorder!!.release()
-            recorder = null
+            recorder!!.reset()
         }
     }
 
