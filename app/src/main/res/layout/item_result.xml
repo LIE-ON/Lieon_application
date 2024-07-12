@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/result_item_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/result_item_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:text="타이틀" />
+
+    <TextView
+        android:id="@+id/result_item_date"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center_vertical"
+        android:textDirection="rtl"
+        android:paddingRight="10dp"
+        android:text="날짜"
+        android:visibility="visible"/>
+
+    <androidx.legacy.widget.Space
+        android:id="@+id/result_item_left_image_space"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_gravity="right"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/result_item_delete_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:layout_gravity="end|right"
+        android:visibility="gone"
+        android:src="@mipmap/ic_launcher"
+        />
+
+</LinearLayout>

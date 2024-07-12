@@ -1,19 +1,32 @@
 package com.example.lieon.record.db
 
-import android.app.Application
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class RecordRepository(
-    private val application: Application
+class RecordRepository @Inject constructor(
+    private val recordHistoryDatabase : RecordHistoryDatabase
 ){
-    private val recordHistoryDatabase : RecordHistoryDatabase =
-        RecordHistoryDatabase.getInstance(application)
+
     private val recordHistoryDao = recordHistoryDatabase.recordHistoryDao()
 
-    fun getAllRecordHistories(): Flow<List<RecordHistory>> = recordHistoryDao.getAllRecordHistories()
+    fun getAllRecordHistories(): LiveData<List<RecordHistoryEntity>> = recordHistoryDao.getAllRecordHistories()
 
-    suspend fun insertRecordHistory(recordHistory: RecordHistory) = recordHistoryDao.insert(recordHistory)
+    suspend fun insertRecordHistory(recordHistoryEntity: RecordHistoryEntity) = recordHistoryDao.insert(recordHistoryEntity)
 
-    suspend fun deleteRecordHistory(recordHistory: RecordHistory) = recordHistoryDao.delete(recordHistory)
+    suspend fun deleteRecordHistory(recordHistoryEntity: RecordHistoryEntity) = recordHistoryDao.delete(recordHistoryEntity)
+
+    suspend fun deleteAllRecordHistory(){
+        recordHistoryDao.deleteAll()
+    }
+
+    private fun convertFlowToList(data : Flow<List<RecordHistoryEntity>>): List<RecordHistoryEntity> = runBlocking {
+        val result = mutableListOf<RecordHistoryEntity>()
+        data.collect { dataList ->
+            result.addAll(dataList)
+        }
+        result
+    }
 
 }

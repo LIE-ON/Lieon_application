@@ -2,7 +2,6 @@ package com.example.lieon.record
 
 import android.Manifest
 import android.content.ContentValues
-import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -15,11 +14,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.record.audio.AudioManager
-import java.io.FileDescriptor
+import com.example.lieon.record.db.RecordHistoryEntity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.Date
 
+@AndroidEntryPoint
 class RecordFragment : Fragment() {
 
     private var _binding: FragmentRecordBinding? = null
@@ -27,9 +31,7 @@ class RecordFragment : Fragment() {
 
     private var audioManager : AudioManager? = null
 
-    private val recordViewModel : RecordViewModel by viewModels{
-        RecordViewModelFactory(requireActivity().application)
-    }
+    private val recordViewModel : RecordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,20 +42,42 @@ class RecordFragment : Fragment() {
 
         requestPermissions()
 
-        var startRecordTime : Long? = null
         var endRecordTime : Long? = null
 
         binding.recordButton.setOnClickListener {
             audioManager?.startRecord()
-            startRecordTime = System.currentTimeMillis()
-            recordViewModel.setStartRecordTime(startRecordTime!!)
         }
 
         binding.stopButton.setOnClickListener {
             audioManager?.stopRecord()
             endRecordTime = System.currentTimeMillis()
             recordViewModel.setEndRecordTime(endRecordTime!!)
+
         }
+
+        binding.insertTempDataButton.setOnClickListener {
+            lifecycleScope.launch {
+                recordViewModel.insertRecord(RecordHistoryEntity(
+                    title = "test",
+                    filePath = "/test",
+                    testResult = "10%",
+                    time = Date(System.currentTimeMillis()).toString(),
+                ))
+            }
+        }
+
+        binding.deleteAllButton.setOnClickListener {
+            lifecycleScope.launch {
+                recordViewModel.deleteAllRecord()
+            }
+        }
+
+        binding.insertListDataButton.setOnClickListener {
+//            RecordResults.addItem(Result(1, "Item " + 1, Date(System.currentTimeMillis()), "70%","/test"))
+        }
+
+
+
         return binding.root
     }
 
@@ -101,7 +125,7 @@ class RecordFragment : Fragment() {
         ?: throw IOException("Cannot open file descriptor for URI: $uri")
     private fun createFileUri(): Uri {
         val values = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "abc")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "abc" + System.currentTimeMillis())
             put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp4")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MUSIC + "/RecordExample")
         }
@@ -109,7 +133,7 @@ class RecordFragment : Fragment() {
         return requireContext().contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
             ?: throw IOException("파일 경로 생성 오류 발생")
     }
-    fun getFilePathFromUri(uri: Uri): String? {
+    private fun getFilePathFromUri(uri: Uri): String? {
         val projection = arrayOf(MediaStore.MediaColumns.DATA)
         var filePath: String? = null
         requireContext().contentResolver.query(uri, projection, null, null, null)?.use { cursor ->

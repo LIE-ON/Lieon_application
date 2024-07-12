@@ -6,4 +6,10 @@
         android:title="recordFragment"
         />
 
+    <item
+        android:id="@+id/resultFragment"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="resultFragment"
+        />
+
 </menu>

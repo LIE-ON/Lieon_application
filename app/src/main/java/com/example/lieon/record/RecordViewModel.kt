@@ -1,16 +1,17 @@
 package com.example.lieon.record
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.lieon.record.db.RecordHistory
+import com.example.lieon.record.db.RecordHistoryEntity
 import com.example.lieon.record.db.RecordRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RecordViewModel(
-    private val application: Application
+@HiltViewModel
+class RecordViewModel @Inject constructor(
+    private val recordRepository : RecordRepository
 ) : ViewModel() {
-    private val recordRepository : RecordRepository = RecordRepository(application)
 
     private val _startRecordTime = MutableLiveData<Long>()
 
@@ -30,8 +31,12 @@ class RecordViewModel(
 
     fun getAllRecords() = recordRepository.getAllRecordHistories()
 
-    suspend fun insertRecord(recordHistory: RecordHistory) = recordRepository.insertRecordHistory(recordHistory)
+    suspend fun insertRecord(recordHistoryEntity: RecordHistoryEntity) = recordRepository.insertRecordHistory(recordHistoryEntity)
 
-    suspend fun deleteRecord(recordHistory: RecordHistory) = recordRepository.deleteRecordHistory(recordHistory)
+    suspend fun deleteRecord(recordHistoryEntity: RecordHistoryEntity) = recordRepository.deleteRecordHistory(recordHistoryEntity)
+
+    suspend fun deleteAllRecord() {
+        recordRepository.deleteAllRecordHistory()
+    }
 
 }

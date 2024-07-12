@@ -11,4 +11,11 @@
         android:label="fragment_record"
         tools:layout="@layout/fragment_record"/>
 
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.lieon.result.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result"
+        />
+
 </navigation>
