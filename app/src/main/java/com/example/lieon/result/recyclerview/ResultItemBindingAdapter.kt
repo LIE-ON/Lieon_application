@@ -2,13 +2,14 @@ package com.example.lieon.result.recyclerview
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lieon.record.db.RecordHistoryEntity
 import com.example.lieon.result.model.RecordResults
 
 object ResultItemBindingAdapter {
-    @BindingAdapter("app:binding_adapter")
-    fun setItem(recyclerView: RecyclerView, item : RecordResults){
-        item?.let {
-            (recyclerView.adapter as ResultRecyclerViewAdapter)
-        }
+    @JvmStatic
+    @BindingAdapter("adapter", "submitList", requireAll = true)
+    fun bindRecyclerView(view : RecyclerView, adapter: ResultRecyclerViewAdapter, submitList: List<Any>?){
+        view.adapter = adapter
+        adapter.submitList(submitList?.map { it as RecordHistoryEntity })
     }
 }

@@ -55,27 +55,6 @@ class RecordFragment : Fragment() {
 
         }
 
-        binding.insertTempDataButton.setOnClickListener {
-            lifecycleScope.launch {
-                recordViewModel.insertRecord(RecordHistoryEntity(
-                    title = "test",
-                    filePath = "/test",
-                    testResult = "10%",
-                    time = Date(System.currentTimeMillis()).toString(),
-                ))
-            }
-        }
-
-        binding.deleteAllButton.setOnClickListener {
-            lifecycleScope.launch {
-                recordViewModel.deleteAllRecord()
-            }
-        }
-
-        binding.insertListDataButton.setOnClickListener {
-//            RecordResults.addItem(Result(1, "Item " + 1, Date(System.currentTimeMillis()), "70%","/test"))
-        }
-
 
 
         return binding.root
