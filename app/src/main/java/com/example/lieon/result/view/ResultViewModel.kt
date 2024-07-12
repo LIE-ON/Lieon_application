@@ -1,17 +1,10 @@
-package com.example.lieon.result
+package com.example.lieon.result.view
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.lieon.record.db.RecordHistoryEntity
-import com.example.lieon.record.db.RecordRepository
-import com.example.lieon.result.model.RecordResults
-import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
+import com.example.lieon.db.RecordHistoryEntity
+import com.example.lieon.db.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import javax.inject.Inject
 
 @HiltViewModel

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 import com.example.lieon.databinding.ItemResultBinding
-import com.example.lieon.record.db.RecordHistoryEntity
+import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.result.model.RecordResults
 
 class ResultRecyclerViewAdapter(

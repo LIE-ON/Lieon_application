@@ -1,4 +1,4 @@
-package com.example.lieon.record
+package com.example.lieon.record.view
 
 import android.Manifest
 import android.content.ContentValues
@@ -14,14 +14,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.record.audio.AudioManager
-import com.example.lieon.record.db.RecordHistoryEntity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.Date
 
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
@@ -54,8 +50,6 @@ class RecordFragment : Fragment() {
             recordViewModel.setEndRecordTime(endRecordTime!!)
 
         }
-
-
 
         return binding.root
     }

@@ -1,10 +1,10 @@
-package com.example.lieon.record
+package com.example.lieon.record.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.lieon.record.db.RecordHistoryEntity
-import com.example.lieon.record.db.RecordRepository
+import com.example.lieon.db.RecordHistoryEntity
+import com.example.lieon.db.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,11 +15,11 @@ class RecordViewModel @Inject constructor(
 
     private val _startRecordTime = MutableLiveData<Long>()
 
-    private val startRecordTime: LiveData<Long> get() = startRecordTime
-
     private val _endRecordTime = MutableLiveData<Long>()
 
     private val endRecordTime: LiveData<Long> get() = _endRecordTime
+
+    private var isRecording : Boolean = false
 
     fun setStartRecordTime(time : Long){
         _startRecordTime.value = time

@@ -1,4 +1,4 @@
-package com.example.lieon.record.db
+package com.example.lieon.db
 
 import android.content.Context
 import androidx.room.Room

@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lieon.databinding.ItemResultBinding
-import com.example.lieon.record.db.RecordHistoryEntity
+import com.example.lieon.db.RecordHistoryEntity
 
 class ResultViewHolder(val binding: ItemResultBinding, private val clickListener: ResultItemClickListener) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     init {

@@ -1,6 +1,6 @@
 package com.example.lieon.result.model
 
-import com.example.lieon.record.db.RecordHistoryEntity
+import com.example.lieon.db.RecordHistoryEntity
 import java.util.ArrayList
 import java.util.Date
 import java.util.HashMap

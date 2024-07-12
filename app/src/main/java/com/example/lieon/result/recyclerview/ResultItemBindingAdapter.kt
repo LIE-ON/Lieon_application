@@ -2,7 +2,7 @@ package com.example.lieon.result.recyclerview
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lieon.record.db.RecordHistoryEntity
+import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.result.model.RecordResults
 
 object ResultItemBindingAdapter {

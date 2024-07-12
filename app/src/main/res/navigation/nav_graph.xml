@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/recordFragment"
-        android:name="com.example.lieon.record.RecordFragment"
+        android:name="com.example.lieon.record.view.RecordFragment"
         android:label="fragment_record"
         tools:layout="@layout/fragment_record"/>
 
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.example.lieon.result.ResultFragment"
+        android:name="com.example.lieon.result.view.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result"
         />

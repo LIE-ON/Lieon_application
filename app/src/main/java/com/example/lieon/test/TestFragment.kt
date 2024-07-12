@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.lieon.R
-import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.databinding.FragmentTestBinding
-import com.example.lieon.record.RecordViewModel
-import com.example.lieon.record.db.RecordHistoryEntity
+import com.example.lieon.record.view.RecordViewModel
+import com.example.lieon.db.RecordHistoryEntity
 import kotlinx.coroutines.launch
 import java.util.Date
 

@@ -1,25 +1,16 @@
-package com.example.lieon.result
+package com.example.lieon.result.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.lieon.databinding.FragmentResultBinding
-import com.example.lieon.record.db.RecordHistoryEntity
-import com.example.lieon.record.db.RecordRepository
-import com.example.lieon.result.model.RecordResults
 import com.example.lieon.result.recyclerview.ResultItemClickListener
-import com.example.lieon.result.recyclerview.ResultViewHolder
 import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * A fragment representing a list of Items.
