@@ -51,6 +51,12 @@ class RecordFragment : Fragment() {
 
         }
 
+        binding.accuracyGoalButton.setOnClickListener {
+            val dialog = RecordAccuracyDialog(requireActivity())
+            dialog.show()
+        }
+
+
         return binding.root
     }
 
