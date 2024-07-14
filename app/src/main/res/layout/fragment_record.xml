@@ -154,7 +154,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="목표값"
+                android:text="@{viewmodel.goalAccuracy.toString()}"
                 android:textSize="20dp"
                 />
 

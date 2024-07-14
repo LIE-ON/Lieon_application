@@ -2,6 +2,7 @@ package com.example.lieon.record.view
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -37,8 +38,6 @@ class RecordFragment : Fragment() {
     private var audioManager : AudioManager? = null
 
     private val recordViewModel : RecordViewModel by viewModels()
-
-    lateinit var outputPath : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,9 +82,18 @@ class RecordFragment : Fragment() {
             binding.chronometer.stop()
         }
 
+        val spf = requireActivity().getSharedPreferences("LieonPrefs", Context.MODE_PRIVATE)
+
+        recordViewModel.setGoalAccuracy(spf.getInt("goalAccuracy", 80))
+
         binding.accuracyGoalButton.setOnClickListener {
             val dialog = RecordAccuracyDialog(requireActivity())
             dialog.show()
+
+            dialog.setOnDismissListener {
+                recordViewModel.setGoalAccuracy(spf.getInt("goalAccuracy", 80))
+                it.dismiss()
+            }
         }
 
 

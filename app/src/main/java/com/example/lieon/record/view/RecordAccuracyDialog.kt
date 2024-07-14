@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.example.lieon.databinding.DialogRecordAccuracyBinding
 
 class RecordAccuracyDialog(context: Context) : Dialog(context){
@@ -30,14 +31,18 @@ class RecordAccuracyDialog(context: Context) : Dialog(context){
         setCanceledOnTouchOutside(true)
         setCancelable(true)
 
-        binding?.accuracySubmitButton?.setOnClickListener {
+        binding.accuracySubmitButton.setOnClickListener {
+            if (binding.accuracyInputEdittext.text.isBlank()){
+                Toast.makeText(context, "공백을 입력할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val spf = context.getSharedPreferences("LieonPrefs",Context.MODE_PRIVATE)
-            val editor = spf.edit()
-
-            editor.putInt("goalAccuracy",binding!!.accuracyInputEdittext.text.toString().toInt())
+            spf.edit()
+                .putInt("goalAccuracy",binding!!.accuracyInputEdittext.text.toString().toInt())
+                .apply()
 
             Toast.makeText(context, spf.getInt("goalAccuracy", 90).toString(), Toast.LENGTH_SHORT).show()
-
+            dismiss()
         }
 
 

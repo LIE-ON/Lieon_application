@@ -25,7 +25,15 @@ class RecordViewModel @Inject constructor(
 
     private lateinit var currentUri : Uri
 
+    private var _goalAccuracy : MutableLiveData<Int> = MutableLiveData()
+
+    val goalAccuracy : LiveData<Int> get() = _goalAccuracy
+
     val isRecording : LiveData<Boolean> get() = _isRecording
+
+    init {
+        _goalAccuracy.value = 80
+    }
 
     fun setRecording(boolean: Boolean) {
         _isRecording.value = boolean
@@ -40,6 +48,10 @@ class RecordViewModel @Inject constructor(
     }
 
     fun getCurrentUri() = currentUri
+
+    fun setGoalAccuracy(int: Int){
+        _goalAccuracy.value = int
+    }
 
     fun getAllRecords() = recordRepository.getAllRecordHistories()
 
