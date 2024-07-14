@@ -10,9 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.lieon.databinding.FragmentTestBinding
 import com.example.lieon.record.view.RecordViewModel
 import com.example.lieon.db.RecordHistoryEntity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
-
+@AndroidEntryPoint
 class TestFragment : Fragment() {
 
     private var _binding : FragmentTestBinding? = null

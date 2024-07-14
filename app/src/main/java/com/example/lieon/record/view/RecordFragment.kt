@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,9 @@ import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.record.audio.AudioManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
@@ -28,6 +32,8 @@ class RecordFragment : Fragment() {
     private var audioManager : AudioManager? = null
 
     private val recordViewModel : RecordViewModel by viewModels()
+
+    lateinit var outputPath : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,15 +46,25 @@ class RecordFragment : Fragment() {
 
         var endRecordTime : Long? = null
 
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewmodel = recordViewModel
+
         binding.recordButton.setOnClickListener {
-            audioManager?.startRecord()
+            binding.chronometer.base = SystemClock.elapsedRealtime()
+            val uri = createFileUri()
+            recordViewModel.setCurrentUri(uri)
+            val fileDescriptor = getFileDescriptor(uri)
+            audioManager?.startRecord(fileDescriptor)
+            recordViewModel.setRecording(true)
+            binding.chronometer.start()
         }
 
         binding.stopButton.setOnClickListener {
-            audioManager?.stopRecord()
+            audioManager?.stopRecord(getFilePathFromUri(recordViewModel.getCurrentUri())!!)
             endRecordTime = System.currentTimeMillis()
             recordViewModel.setEndRecordTime(endRecordTime!!)
-
+            recordViewModel.setRecording(false)
+            binding.chronometer.stop()
         }
 
         binding.accuracyGoalButton.setOnClickListener {
@@ -58,6 +74,19 @@ class RecordFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val chronometer = binding.chronometer
+
+        chronometer.setOnChronometerTickListener {
+            val elapsedMillis = SystemClock.elapsedRealtime() - it.base
+            val minutes = (elapsedMillis / 1000) / 60
+            val seconds = (elapsedMillis / 1000) % 60
+            it.text = String.format("%02d:%02d", minutes, seconds)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -94,7 +123,7 @@ class RecordFragment : Fragment() {
     private fun initAudioManager() {
         try {
             val uri = createFileUri()
-            audioManager = AudioManager(getFilePathFromUri(uri)!!,getFileDescriptor(uri))
+            audioManager = AudioManager()
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -103,8 +132,11 @@ class RecordFragment : Fragment() {
     private fun getFileDescriptor(uri: Uri) = requireContext().contentResolver.openFileDescriptor(uri, "w")?.fileDescriptor
         ?: throw IOException("Cannot open file descriptor for URI: $uri")
     private fun createFileUri(): Uri {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val fileName = "[Lieon] 녹음 파일_$timeStamp"
+
         val values = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "abc" + System.currentTimeMillis())
+            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp4")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MUSIC + "/RecordExample")
         }
@@ -123,4 +155,5 @@ class RecordFragment : Fragment() {
         }
         return filePath
     }
+
 }

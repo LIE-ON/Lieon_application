@@ -6,14 +6,11 @@ import java.io.FileDescriptor
 import java.io.IOException
 import java.lang.IllegalStateException
 
-class AudioRecorder(
-     private val fileDescriptor: FileDescriptor
-) {
+class AudioRecorder() {
     private var recorder: MediaRecorder? = null
-
-    fun record() {
+    fun record(fileDescriptor: FileDescriptor) {
         try {
-            setRecorder()
+            setRecorder(fileDescriptor)
             recorder?.apply {
                 prepare()
                 start()
@@ -40,7 +37,7 @@ class AudioRecorder(
         }
     }
 
-    private fun setRecorder(){
+    private fun setRecorder(fileDescriptor: FileDescriptor){
         recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)

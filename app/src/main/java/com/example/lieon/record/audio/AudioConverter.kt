@@ -4,9 +4,9 @@ import android.util.Log
 import com.arthenica.mobileffmpeg.Config
 import com.arthenica.mobileffmpeg.FFmpeg
 
-class AudioConverter(private val recordFilePath : String) {
+class AudioConverter() {
 
-    fun convertToWav(){
+    fun convertToWav(recordFilePath : String){
         val outputPath = recordFilePath.replace(".m4a", ".wav")
 
         val command = arrayOf(

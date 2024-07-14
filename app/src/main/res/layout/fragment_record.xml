@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".record.view.RecordFragment"
     android:id="@+id/recordFragment">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.example.lieon.record.view.RecordViewModel" />
+
+    </data>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +33,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="시간"
+                android:text=""
                 android:textSize="40dp"
                 android:textColor="@color/black"
                 android:gravity="center"
@@ -36,6 +43,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
 
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="40dp"
+                android:countDown="false" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
@@ -44,6 +59,7 @@
             android:layout_weight="0.2"/>
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -57,6 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_button2"
                 android:src="@drawable/mic"
+                android:visibility="@{viewmodel.isRecording() ? View.GONE : View.VISIBLE}"
                 android:padding="20dp"/>
 
             <ImageButton
@@ -67,7 +84,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_button2"
                 android:src="@drawable/stop"
-                android:visibility="gone"
+                android:visibility="@{viewmodel.isRecording() ? View.VISIBLE : View.GONE}"
                 android:padding="20dp"/>
         </LinearLayout>
 
@@ -170,4 +187,4 @@
 
 
 
-</FrameLayout>
+</layout>

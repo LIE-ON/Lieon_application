@@ -3,23 +3,23 @@ package com.example.lieon.record.audio
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import com.example.lieon.db.RecordRepository
 import java.io.FileDescriptor
+import javax.inject.Inject
 
-class AudioManager(
-    private val outputFilePath : String,
-    private val fileDescriptor: FileDescriptor
+class AudioManager (
 ) {
-    //private val outputFilePath : String = Environment.DIRECTORY_MUSIC + "/RecordExample"
-    private var audioRecorder : AudioRecorder = AudioRecorder(fileDescriptor)
-    private var audioConverter: AudioConverter = AudioConverter(outputFilePath)
+    private var audioRecorder : AudioRecorder = AudioRecorder()
+    private var audioConverter: AudioConverter = AudioConverter()
 
-    fun startRecord(){
-        audioRecorder.record()
+
+    fun startRecord(fileDescriptor: FileDescriptor){
+        audioRecorder.record(fileDescriptor)
         Log.d("record", "녹음 시작")
     }
-    fun stopRecord(){
+    fun stopRecord(outputFilePath : String){
         audioRecorder.stop()
-        audioConverter.convertToWav()
+        audioConverter.convertToWav(outputFilePath)
         Log.d("record", "녹음 중지")
     }
 
