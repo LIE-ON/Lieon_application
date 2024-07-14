@@ -14,6 +14,15 @@ class ResultViewModel @Inject constructor(
     val recordResults : LiveData<List<RecordHistoryEntity>> = recordRepository.getAllRecordHistories()
 //    val recordResults : LiveData<List<RecordHistoryEntity>> get() = _recordResults
 
+    fun searchRecordResult(id : Int) : RecordHistoryEntity?{
+        recordResults.value?.forEach {
+            if (it.id == id){
+                return it
+            }
+        }
+        return null
+    }
+
 
     init {
 //        updateItems()

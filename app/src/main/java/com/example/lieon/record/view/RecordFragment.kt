@@ -15,9 +15,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.lieon.databinding.FragmentRecordBinding
+import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.record.audio.AudioManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -60,10 +65,21 @@ class RecordFragment : Fragment() {
         }
 
         binding.stopButton.setOnClickListener {
-            audioManager?.stopRecord(getFilePathFromUri(recordViewModel.getCurrentUri())!!)
+            val filePath = getFilePathFromUri(recordViewModel.getCurrentUri())!!
+            audioManager?.stopRecord(filePath)
             endRecordTime = System.currentTimeMillis()
             recordViewModel.setEndRecordTime(endRecordTime!!)
             recordViewModel.setRecording(false)
+            lifecycleScope.launch(Dispatchers.IO){
+                recordViewModel.insertRecord(
+                    RecordHistoryEntity(title = "test",
+                        filePath = filePath,
+                        testResult = "80%",
+                        time = convertDateToFormattedDate(Date()))
+                )
+            }
+
+            binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
         }
 
@@ -132,7 +148,7 @@ class RecordFragment : Fragment() {
     private fun getFileDescriptor(uri: Uri) = requireContext().contentResolver.openFileDescriptor(uri, "w")?.fileDescriptor
         ?: throw IOException("Cannot open file descriptor for URI: $uri")
     private fun createFileUri(): Uri {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val timeStamp = convertDateToFormattedDate(Date())
         val fileName = "[Lieon] 녹음 파일_$timeStamp"
 
         val values = ContentValues().apply {
@@ -155,5 +171,7 @@ class RecordFragment : Fragment() {
         }
         return filePath
     }
+
+    private fun convertDateToFormattedDate(date: Date) = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date)
 
 }
