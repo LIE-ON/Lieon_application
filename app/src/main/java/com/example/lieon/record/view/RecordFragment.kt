@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.lieon.alarm.NotificationUtils
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.record.audio.AudioManager
@@ -48,6 +49,8 @@ class RecordFragment : Fragment() {
 
         requestPermissions()
 
+        NotificationUtils.createNotificationChannel(requireContext())
+
         var endRecordTime : Long? = null
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -61,6 +64,11 @@ class RecordFragment : Fragment() {
             audioManager?.startRecord(fileDescriptor)
             recordViewModel.setRecording(true)
             binding.chronometer.start()
+            NotificationUtils.sendNotification(
+                requireContext(),
+                "Lie-on",
+                "녹음을 시작하였습니다."
+            )
         }
 
         binding.stopButton.setOnClickListener {
@@ -80,6 +88,11 @@ class RecordFragment : Fragment() {
 
             binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
+            NotificationUtils.sendNotification(
+                requireContext(),
+                "Lio-on",
+                "녹음을 중지하였습니다."
+            )
         }
 
         val spf = requireActivity().getSharedPreferences("LieonPrefs", Context.MODE_PRIVATE)
@@ -132,7 +145,8 @@ class RecordFragment : Fragment() {
         val permissions = arrayOf(
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.POST_NOTIFICATIONS
         )
 
         if (permissions.all {
