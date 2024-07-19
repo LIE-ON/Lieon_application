@@ -20,7 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.lieon.alarm.NotificationUtils
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.db.RecordHistoryEntity
-import com.example.lieon.record.audio.AudioManager
+import com.example.lieon.audio.AudioManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
