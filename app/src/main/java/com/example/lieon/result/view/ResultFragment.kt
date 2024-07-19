@@ -49,10 +49,14 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick(position: Int) {
-        Toast.makeText(requireContext(), "Clicked item at position $position", Toast.LENGTH_SHORT).show()
+    override fun onItemDeleteClick(position: Int) {
+//        Toast.makeText(requireContext(), "Clicked Delete item at position $position", Toast.LENGTH_SHORT).show()
+        resultViewModel.deleteRecordResult(position)
     }
 
+    override fun onItemDetailClick(position: Int) {
+        Toast.makeText(requireContext(), "Clicked Detail item at position $position", Toast.LENGTH_SHORT).show()
+    }
 
 
 }

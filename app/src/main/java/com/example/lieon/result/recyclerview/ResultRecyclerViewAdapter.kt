@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.lieon.databinding.ItemResultBinding
 import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.result.model.RecordResults
+import com.example.lieon.result.view.ResultViewModel
 
 class ResultRecyclerViewAdapter(
-    private val clickListener: ResultItemClickListener
+    private val clickListener: ResultItemClickListener,
 ) : ListAdapter<RecordHistoryEntity, ResultViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {

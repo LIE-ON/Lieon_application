@@ -1,5 +1,6 @@
 package com.example.lieon.result.recyclerview
 
 interface ResultItemClickListener {
-    fun onItemClick(position: Int)
+    fun onItemDeleteClick(position: Int)
+    fun onItemDetailClick(position: Int)
 }
