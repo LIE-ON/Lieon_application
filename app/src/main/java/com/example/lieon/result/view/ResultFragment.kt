@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.example.lieon.R
 import com.example.lieon.databinding.FragmentResultBinding
 import com.example.lieon.result.recyclerview.ResultItemClickListener
 import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
@@ -55,7 +58,11 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
     }
 
     override fun onItemDetailClick(position: Int) {
-        Toast.makeText(requireContext(), "Clicked Detail item at position $position", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(requireContext(), "Clicked Detail item at position $position", Toast.LENGTH_SHORT).show()
+        val bundle = Bundle().apply {
+            putInt("selectedPosition", position)
+        }
+        findNavController().navigate(R.id.action_resultFragment_to_resultDetailFragment, bundle)
     }
 
 
