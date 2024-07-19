@@ -22,7 +22,7 @@
             app:destination="@+id/recordDetailFragment">
 
             <argument
-                android:name="selectedPosition"
+                android:name="selectedId"
                 app:argType="integer"/>
             />
 

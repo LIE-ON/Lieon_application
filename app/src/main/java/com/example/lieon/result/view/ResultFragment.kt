@@ -60,7 +60,7 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
     override fun onItemDetailClick(position: Int) {
 //        Toast.makeText(requireContext(), "Clicked Detail item at position $position", Toast.LENGTH_SHORT).show()
         val bundle = Bundle().apply {
-            putInt("selectedPosition", position)
+            putInt("selectedId", resultViewModel.getRecordResultId(position))
         }
         findNavController().navigate(R.id.action_resultFragment_to_resultDetailFragment, bundle)
     }
