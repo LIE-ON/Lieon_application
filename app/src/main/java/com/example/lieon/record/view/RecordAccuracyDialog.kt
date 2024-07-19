@@ -11,6 +11,7 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import com.example.lieon.R
 import com.example.lieon.databinding.DialogRecordAccuracyBinding
 
 class RecordAccuracyDialog(context: Context) : Dialog(context){
@@ -23,10 +24,20 @@ class RecordAccuracyDialog(context: Context) : Dialog(context){
         _binding = DialogRecordAccuracyBinding.inflate(LayoutInflater.from(context))
         setContentView(binding.root)
 
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
+//        window?.setLayout(
+//            WindowManager.LayoutParams.MATCH_PARENT,
+//            WindowManager.LayoutParams.WRAP_CONTENT
+//        )
+
+        window?.setBackgroundDrawableResource(R.drawable.dialog_background)
+
+        val window = window ?: return
+        val layoutParams = window.attributes
+        val marginHorizontal = (context.resources.displayMetrics.density * 25).toInt()
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.width = context.resources.displayMetrics.widthPixels - 2 * marginHorizontal
+        window.attributes = layoutParams
+
 
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCanceledOnTouchOutside(true)
