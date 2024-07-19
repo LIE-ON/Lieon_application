@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(binding.bottomNavi, navController)
 
+
         setContentView(binding.root)
 
     }

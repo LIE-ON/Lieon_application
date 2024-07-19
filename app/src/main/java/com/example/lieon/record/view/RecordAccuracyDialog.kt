@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.WindowManager
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -31,14 +32,30 @@ class RecordAccuracyDialog(context: Context) : Dialog(context){
         setCanceledOnTouchOutside(true)
         setCancelable(true)
 
+        val spf = context.getSharedPreferences("LieonPrefs",Context.MODE_PRIVATE)
+        val beforeAccuracyGoal = spf.getInt("goalAccuracy",90)
+
+        binding.accuracySeekbar.apply {
+            progress = beforeAccuracyGoal
+            setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    binding.accuracySeekbarTextview.text = progress.toString()
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                }
+            })
+        }
+
+        binding.accuracySeekbarTextview.text = beforeAccuracyGoal.toString()
+
         binding.accuracySubmitButton.setOnClickListener {
-            if (binding.accuracyInputEdittext.text.isBlank()){
-                Toast.makeText(context, "공백을 입력할 수 없습니다.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val spf = context.getSharedPreferences("LieonPrefs",Context.MODE_PRIVATE)
+
             spf.edit()
-                .putInt("goalAccuracy",binding!!.accuracyInputEdittext.text.toString().toInt())
+                .putInt("goalAccuracy", binding.accuracySeekbar.progress)
                 .apply()
 
             Toast.makeText(context, spf.getInt("goalAccuracy", 90).toString(), Toast.LENGTH_SHORT).show()
