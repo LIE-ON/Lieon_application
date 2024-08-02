@@ -25,6 +25,8 @@ class ResultViewModel @Inject constructor(
         }
     }
 
+    fun getRecordResultId(position: Int) : Int = recordResults.value?.get(position)!!.id
+
     fun searchRecordResult(id : Int) : RecordHistoryEntity?{
         recordResults.value?.forEach {
             if (it.id == id){

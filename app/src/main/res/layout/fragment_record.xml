@@ -10,7 +10,6 @@
         <variable
             name="viewmodel"
             type="com.example.lieon.record.view.RecordViewModel" />
-
     </data>
 
 

@@ -15,7 +15,22 @@
         android:id="@+id/resultFragment"
         android:name="com.example.lieon.result.view.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result"/>
+        tools:layout="@layout/fragment_result">
+
+
+        <action
+            android:id="@+id/action_resultFragment_to_resultDetailFragment"
+            app:destination="@+id/recordDetailFragment">
+
+            <argument
+                android:name="selectedId"
+                app:argType="integer"/>
+
+        </action>
+
+
+    </fragment>
+
 
     <fragment
         android:id="@+id/testFragment"
@@ -24,8 +39,10 @@
         tools:layout="@layout/fragment_test"/>
 
     <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.example.lieon.result.view.DetailFragment"
-        tools:layout="@layout/fragment_detail" />
+        android:id="@+id/recordDetailFragment"
+        android:name="com.example.lieon.result.view.ResultDetailFragment"
+        android:label="fragment_record_detail"
+        tools:layout="@layout/fragment_result_detail"
+        />
 
 </navigation>
