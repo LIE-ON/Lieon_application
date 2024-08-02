@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/recordingName"
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="녹음 파일 이름"
-        android:textSize="20dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recordingName"
-        android:layout_marginTop="200dp" />
+        <TextView
+            android:id="@+id/recordingName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="녹음 파일 이름"
+            android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/recordingLength"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00:00:00"
-        android:textSize="40sp"
-        android:layout_below="@id/seekBar"
-        android:layout_marginTop="46dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp"/>
 
-    <Button
-        android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="재생"
-        android:background="@drawable/rounded_button2"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/recordingLength"/>
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_below="@id/recordingName" />
 
-    <Button
-        android:id="@+id/rewindButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="뒤로감기"
-        android:layout_below="@id/recordingLength"
-        android:layout_toStartOf="@id/playButton"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_button2"/>
+        <TextView
+            android:id="@+id/recordingLength"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_below="@id/seekBar"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:text="00:00:00"
+            android:textSize="50sp" />
 
-    <Button
-        android:id="@+id/forwardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="빨리감기"
-        android:layout_below="@id/recordingLength"
-        android:layout_toEndOf="@id/playButton"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/rounded_button2"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal">
 
-</RelativeLayout>
+
+            <Button
+                android:id="@+id/rewindButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/playButton"
+                android:background="@drawable/rounded_button2"
+                android:icon="@android:drawable/ic_media_rew"
+                android:text="뒤로감기" />
+
+            <Button
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rounded_button2"
+                android:icon="@android:drawable/ic_media_play"
+                android:text="재생" />
+
+            <Button
+                android:id="@+id/forwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/playButton"
+                android:background="@drawable/rounded_button2"
+                android:icon="@android:drawable/ic_media_ff"
+                android:text="빨리감기" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

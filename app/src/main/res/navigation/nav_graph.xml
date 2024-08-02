@@ -15,13 +15,17 @@
         android:id="@+id/resultFragment"
         android:name="com.example.lieon.result.view.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result"
-        />
+        tools:layout="@layout/fragment_result"/>
 
     <fragment
         android:id="@+id/testFragment"
         android:name="com.example.lieon.test.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test"/>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.lieon.result.view.DetailFragment"
+        tools:layout="@layout/fragment_detail" />
 
 </navigation>

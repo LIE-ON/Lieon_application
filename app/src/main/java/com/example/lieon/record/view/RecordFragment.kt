@@ -66,7 +66,7 @@ class RecordFragment : Fragment() {
             binding.chronometer.start()
             NotificationUtils.sendNotification(
                 requireContext(),
-                "Lie-on",
+                "녹음 시작",
                 "녹음을 시작하였습니다."
             )
         }
@@ -90,7 +90,7 @@ class RecordFragment : Fragment() {
             binding.chronometer.stop()
             NotificationUtils.sendNotification(
                 requireContext(),
-                "Lio-on",
+                "녹음 중지",
                 "녹음을 중지하였습니다."
             )
         }

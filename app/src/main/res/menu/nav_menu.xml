@@ -8,9 +8,8 @@
 
     <item
         android:id="@+id/resultFragment"
-        android:icon="@drawable/ic_launcher_background"
-        android:title="resultFragment"
-        />
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="녹음목록" />
 
     <item
         android:id="@+id/testFragment"

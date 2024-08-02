@@ -14,7 +14,7 @@ import com.example.lieon.result.view.ResultViewModel
 class ResultRecyclerViewAdapter(
     private val clickListener: ResultItemClickListener,
 ) : ListAdapter<RecordHistoryEntity, ResultViewHolder>(DIFF_CALLBACK) {
-
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
         return ResultViewHolder(
             ItemResultBinding.inflate(

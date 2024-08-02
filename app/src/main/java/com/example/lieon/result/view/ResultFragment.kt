@@ -1,16 +1,20 @@
 package com.example.lieon.result.view
 
+import android.R
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.lieon.databinding.FragmentResultBinding
 import com.example.lieon.result.recyclerview.ResultItemClickListener
 import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+
 
 /**
  * A fragment representing a list of Items.
@@ -57,6 +61,5 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
     override fun onItemDetailClick(position: Int) {
         Toast.makeText(requireContext(), "Clicked Detail item at position $position", Toast.LENGTH_SHORT).show()
     }
-
 
 }

@@ -31,12 +31,20 @@ class ResultViewHolder(
         title.text = result.title
         date.text = result.time
 
+        val checkedColor = android.graphics.Color.LTGRAY
+        val uncheckedColor = android.graphics.Color.WHITE
+
+        binding.root.setBackgroundColor(uncheckedColor)
+        checkBox.isChecked = false
+
         checkBox.setOnClickListener {
             if (checkBox.isChecked) {
+                binding.root.setBackgroundColor(checkedColor)
                 date.visibility = View.GONE
                 binding.resultItemLeftImageSpace.visibility = View.VISIBLE
                 deleteImage.visibility = View.VISIBLE
             } else {
+                binding.root.setBackgroundColor(uncheckedColor)
                 date.visibility = View.VISIBLE
                 binding.resultItemLeftImageSpace.visibility = View.GONE
                 deleteImage.visibility = View.GONE
