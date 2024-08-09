@@ -9,6 +9,12 @@ import com.example.lieon.R
 import com.example.lieon.databinding.ItemResultBinding
 import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.record.view.RecordViewModel
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.util.Locale
 
 class ResultViewHolder(
     private val binding: ItemResultBinding,
@@ -29,7 +35,7 @@ class ResultViewHolder(
 
     fun bind(result: RecordHistoryEntity){
         title.text = result.title
-        date.text = result.time
+        date.text = formatDate(result.time)
 
         val checkedColor = android.graphics.Color.LTGRAY
         val uncheckedColor = android.graphics.Color.WHITE
@@ -60,6 +66,25 @@ class ResultViewHolder(
                 R.id.result_item_title -> clickListener.onItemDetailClick(position)
             }
 
+        }
+    }
+
+    private fun formatDate(input: String): String {
+        // Define the input date-time format
+        val inputFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+
+        // Define the output date-time format
+        val outputFormat = SimpleDateFormat("yyyy.MM.dd HH시mm분ss초", Locale.getDefault())
+
+        return try {
+            // Parse the input string to Date
+            val date = inputFormat.parse(input)
+
+            // Format the Date to the desired output string
+            date?.let { outputFormat.format(it) } ?: ""
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            ""
         }
     }
 }

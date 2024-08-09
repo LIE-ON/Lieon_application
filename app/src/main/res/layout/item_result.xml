@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/result_item_date"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|end"
         android:text="날짜"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/result_item_left_image_space"
-        app:layout_constraintWidth_default="wrap"/>
+        app:layout_constraintWidth="true"/>
 
     <androidx.legacy.widget.Space
         android:id="@+id/result_item_left_image_space"
