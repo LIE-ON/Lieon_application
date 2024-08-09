@@ -43,6 +43,15 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/recordingLength"/>
 
+<!--    <Button-->
+<!--        android:id="@+id/stopButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="중지"-->
+<!--        android:background="@drawable/rounded_button2"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/recordingLength"/>-->
+
     <Button
         android:id="@+id/rewindButton"
         android:layout_width="wrap_content"

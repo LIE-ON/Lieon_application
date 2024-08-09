@@ -1,5 +1,6 @@
 package com.example.lieon.result.view
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lieon.db.RecordHistoryEntity
@@ -20,11 +21,7 @@ class ResultDetailViewModel @Inject constructor(
         _selectedId = id
     }
 
-    fun searchResult(): RecordHistoryEntity? {
-        var recordHistoryEntity: RecordHistoryEntity? = null
-        viewModelScope.launch {
-            recordHistoryEntity = recordRepository.searchRecordHistory(_selectedId)
-        }
-        return recordHistoryEntity
+    suspend fun searchResult(id: Int): RecordHistoryEntity? {
+        return recordRepository.searchRecordHistory(id)
     }
 }
