@@ -1,6 +1,5 @@
 package com.example.lieon.result.view
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -12,16 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.lieon.R
->>>>>>> 1e9e593d7b6ff0e531de8f49da5d48961db6c018
 import com.example.lieon.databinding.FragmentResultBinding
 import com.example.lieon.result.recyclerview.ResultItemClickListener
 import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
-/**
- * A fragment representing a list of Items.
- */
 @AndroidEntryPoint
 class ResultFragment () : Fragment(), ResultItemClickListener {
     private var _binding : FragmentResultBinding? = null
@@ -41,9 +36,6 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         resultAdapter = ResultRecyclerViewAdapter(this@ResultFragment)
         binding.adapter = resultAdapter
 
-
-//        binding.resultRecyclerview.adapter = resultAdapter
-//
         resultViewModel.recordResults.observe(viewLifecycleOwner) {items ->
             resultAdapter.submitList(items)
         }

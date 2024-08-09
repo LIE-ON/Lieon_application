@@ -28,6 +28,7 @@ class ResultDetailFragment : Fragment() {
             val selectedId = it.getInt("selectedId")
             resultDetailViewModel.setSelectedId(selectedId)
             resultDetailViewModel.searchResult().let {
+
                 Toast.makeText(requireContext(), "selected ID : $selectedId", Toast.LENGTH_SHORT).show()
             }
         }

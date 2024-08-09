@@ -35,7 +35,6 @@
             submitList="@{viewmodel.recordResults}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-
     </LinearLayout>
 
 
