@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.example.lieon.R
->>>>>>> 1e9e593d7b6ff0e531de8f49da5d48961db6c018
 import com.example.lieon.databinding.FragmentResultBinding
 import com.example.lieon.result.recyclerview.ResultItemClickListener
 import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
@@ -66,7 +64,7 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         val bundle = Bundle().apply {
             putInt("selectedId", resultViewModel.getRecordResultId(position))
         }
-        findNavController().navigate(R.id.action_resultFragment_to_resultDetailFragment, bundle)
+        findNavController().navigate(com.example.lieon.R.id.action_resultFragment_to_resultDetailFragment, bundle)
     }
 
 }
