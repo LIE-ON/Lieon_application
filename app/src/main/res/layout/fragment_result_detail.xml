@@ -21,7 +21,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recordName"
-        android:layout_marginTop="200dp" />
+        android:layout_marginTop="200dp"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/startRecoridngFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textSize="18dp"
+        android:layout_below="@id/seekBar"
+        android:layout_marginLeft="10dp"/>
+
+
+    <TextView
+        android:id="@+id/endRecoridngFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/seekBar"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:text="00:00:00"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/recordingLength"
@@ -30,7 +52,7 @@
         android:text="00:00:00"
         android:textSize="40sp"
         android:layout_below="@id/seekBar"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="26dp"/>
 
@@ -41,6 +63,7 @@
         android:text="재생"
         android:background="@drawable/rounded_button2"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/recordingLength"/>
 
 <!--    <Button-->
@@ -60,6 +83,7 @@
         android:layout_below="@id/recordingLength"
         android:layout_toStartOf="@id/playButton"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_button2"/>
 
     <Button
@@ -70,6 +94,7 @@
         android:layout_below="@id/recordingLength"
         android:layout_toEndOf="@id/playButton"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_button2"/>
 
 

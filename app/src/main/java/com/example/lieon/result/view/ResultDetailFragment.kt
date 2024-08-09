@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.logging.Handler
 
 @AndroidEntryPoint
 class ResultDetailFragment : Fragment() {
@@ -32,6 +33,17 @@ class ResultDetailFragment : Fragment() {
     private var mediaPlayer : MediaPlayer? = null
     private var isPlaying = false
 
+    private val updateSeekBarHandler = android.os.Handler()
+    private val updateSeekBarRunnable = object : Runnable {
+        override fun run() {
+            mediaPlayer?.let {
+                val currentPosition = it.currentPosition
+                binding.seekBar.progress = currentPosition
+                binding.recordingLength.text = formatDuration(currentPosition)
+                updateSeekBarHandler.postDelayed(this, 100) // Update every second
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +60,13 @@ class ResultDetailFragment : Fragment() {
                 val recordHistoryEntity = resultDetailViewModel.searchResult(selectedId)
                 recordHistoryEntity?.let {
                     withContext(Dispatchers.Main) {
+                        binding.recordName.text = it.title
                         val filePath = it.filePath
                         Log.d("ResultDetailFragment", "$filePath")
                         initializeMediaPlayer(filePath)
                     }
                 }
             }
-
         }
 
         binding.playButton.setOnClickListener {
@@ -62,10 +74,12 @@ class ResultDetailFragment : Fragment() {
                 mediaPlayer?.start()
                 isPlaying = true
                 binding.playButton.text = "일시정지"
+                updateSeekBarHandler.post(updateSeekBarRunnable)
             } else {
                 mediaPlayer?.pause()
                 isPlaying = false
                 binding.playButton.text = "재생"
+                updateSeekBarHandler.removeCallbacks(updateSeekBarRunnable)
             }
         }
 
@@ -88,32 +102,49 @@ class ResultDetailFragment : Fragment() {
     }
     private fun initializeMediaPlayer(filePath: String) {
         Log.d("FilePath", "Initializing MediaPlayer with path: $filePath")
+        mediaPlayer?.let {
+            it.stop()
+            it.reset()
+            it.release()
+        }
         mediaPlayer = MediaPlayer().apply {
             setDataSource(filePath)
             prepare()
-            binding.seekBar.max = duration
+            val durationMs = duration
+            binding.seekBar.max = durationMs
+            binding.recordingLength.text = formatDuration(0)
+            binding.endRecoridngFile.text = formatDuration(durationMs)
             setOnCompletionListener {
                 stopAndResetMediaPlayer()
             }
+            updateSeekBarHandler.post(updateSeekBarRunnable)
         }
     }
 
     private fun stopAndResetMediaPlayer() {
-        if (mediaPlayer != null) {
-            mediaPlayer?.stop()
-            mediaPlayer?.reset()
-            mediaPlayer?.release()
+        mediaPlayer?.let {
+            if (it.isPlaying) {
+                it.stop()
+            }
+            it.reset()
+            it.release()
             mediaPlayer = null
             isPlaying = false
             binding.playButton.text = "재생"
-            binding.seekBar.progress = 0
+            updateSeekBarHandler.removeCallbacks(updateSeekBarRunnable)
         }
+    }
+    private fun formatDuration(durationMs: Int): String {
+        val minutes = durationMs / 1000 / 60
+        val seconds = (durationMs / 1000 % 60)
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         stopAndResetMediaPlayer()
+        updateSeekBarHandler.removeCallbacks(updateSeekBarRunnable)
         _binding = null
     }
 
