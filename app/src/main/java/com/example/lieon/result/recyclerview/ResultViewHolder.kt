@@ -74,7 +74,7 @@ class ResultViewHolder(
         val inputFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
 
         // Define the output date-time format
-        val outputFormat = SimpleDateFormat("yyyy.MM.dd HH시mm분ss초", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault())
 
         return try {
             // Parse the input string to Date
