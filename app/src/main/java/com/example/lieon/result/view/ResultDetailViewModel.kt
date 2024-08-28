@@ -1,12 +1,9 @@
 package com.example.lieon.result.view
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.db.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -21,7 +18,7 @@ class ResultDetailViewModel @Inject constructor(
         _selectedId = id
     }
 
-    suspend fun searchResult(id: Int): RecordHistoryEntity? {
-        return recordRepository.searchRecordHistory(id)
+    suspend fun searchRecordHistoryById(id: Int): RecordHistoryEntity? {
+        return recordRepository.searchRecordHistoryById(id)
     }
 }

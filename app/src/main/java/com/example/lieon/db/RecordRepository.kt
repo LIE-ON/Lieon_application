@@ -1,9 +1,6 @@
 package com.example.lieon.db
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class RecordRepository @Inject constructor(
@@ -18,7 +15,7 @@ class RecordRepository @Inject constructor(
 
     suspend fun deleteRecordHistory(recordHistoryEntity: RecordHistoryEntity) = recordHistoryDao.delete(recordHistoryEntity)
 
-    suspend fun searchRecordHistory(id : Int) : RecordHistoryEntity? = recordHistoryDao.searchRecordHistoryById(id)
+    suspend fun searchRecordHistoryById(id : Int) : RecordHistoryEntity? = recordHistoryDao.searchRecordHistoryById(id)
 
     suspend fun searchRecordHistoryByTitle(title : String) : RecordHistoryEntity? = recordHistoryDao.searchRecordHistoryByTitle(title)
 
