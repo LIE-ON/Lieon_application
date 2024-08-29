@@ -13,6 +13,8 @@ import com.example.lieon.db.RecordHistoryEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
+import kotlin.random.Random
+
 @AndroidEntryPoint
 class TestFragment : Fragment() {
 
