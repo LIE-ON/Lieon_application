@@ -20,7 +20,7 @@
 
         <action
             android:id="@+id/action_resultFragment_to_resultDetailFragment"
-            app:destination="@+id/recordDetailFragment">
+            app:destination="@+id/resultDetailFragment">
 
             <argument
                 android:name="selectedId"
@@ -28,6 +28,35 @@
 
         </action>
 
+        <action
+            android:id="@+id/action_resultFragment_to_resultSearchFragment"
+            app:destination="@+id/resultSearchFragment">
+        </action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultSearchFragment"
+        android:name="com.example.lieon.result.view.search.ResultSearchFragment"
+        android:label="fragment_result_search"
+        tools:layout="@layout/fragment_result_search">
+
+        <action
+            android:id="@+id/action_resultSearchFragment_to_resultFragment"
+            app:destination="@+id/resultFragment"
+            />
+
+        <action
+            android:id="@+id/action_resultSearchFragment_to_resultDetailFragment"
+            app:destination="@+id/resultDetailFragment"
+            >
+
+            <argument
+                android:name="selectedId"
+                app:argType="integer"/>
+
+        </action>
 
     </fragment>
 
@@ -39,10 +68,15 @@
         tools:layout="@layout/fragment_test"/>
 
     <fragment
-        android:id="@+id/recordDetailFragment"
-        android:name="com.example.lieon.result.view.ResultDetailFragment"
-        android:label="fragment_record_detail"
+        android:id="@+id/resultDetailFragment"
+        android:name="com.example.lieon.result.view.detail.ResultDetailFragment"
+        android:label="fragment_result_detail"
         tools:layout="@layout/fragment_result_detail"
-        />
+        >
+        <action
+            android:id="@+id/action_resultDetailFragment_to_resultSearchFragment"
+            app:destination="@+id/resultSearchFragment"/>
+
+    </fragment>
 
 </navigation>

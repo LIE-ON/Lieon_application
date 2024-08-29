@@ -1,10 +1,7 @@
-package com.example.lieon.result.view
+package com.example.lieon.result.view.detail
 
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,14 +10,12 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.example.lieon.R
 import com.example.lieon.databinding.FragmentResultDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.logging.Handler
 
 @AndroidEntryPoint
 class ResultDetailFragment : Fragment() {
@@ -57,7 +52,7 @@ class ResultDetailFragment : Fragment() {
             resultDetailViewModel.setSelectedId(selectedId)
 
             CoroutineScope(Dispatchers.IO).launch {
-                val recordHistoryEntity = resultDetailViewModel.searchResult(selectedId)
+                val recordHistoryEntity = resultDetailViewModel.searchRecordHistoryById(selectedId)
                 recordHistoryEntity?.let {
                     withContext(Dispatchers.Main) {
                         binding.recordName.text = it.title

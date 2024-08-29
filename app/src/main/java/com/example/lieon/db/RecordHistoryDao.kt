@@ -18,9 +18,17 @@ interface RecordHistoryDao {
     @Delete
     suspend fun delete(recordHistoryEntity: RecordHistoryEntity)
 
+    @Query("DELETE FROM recordHistory WHERE id = :id")
+    suspend fun deleteById(id : Int)
+
     @Query("SELECT * FROM recordHistory WHERE id = :id")
     suspend fun searchRecordHistoryById(id: Int): RecordHistoryEntity?
 
+    @Query("SELECT * FROM recordHistory WHERE title LIKE '%' || :title || '%'")
+    suspend fun searchRecordHistoryByTitle(title : String) : List<RecordHistoryEntity>
+
     @Query("DELETE FROM recordHistory")
     suspend fun deleteAll()
+
+
 }
