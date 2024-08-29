@@ -6,6 +6,12 @@
     tools:context=".result.view.detail.ResultDetailFragment"
     android:id="@+id/layout_result_detail_fragment">
 
+    <Button
+        android:id="@+id/result_detail_backward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="뒤로가기"
+        />
 
     <TextView
         android:id="@+id/recordName"

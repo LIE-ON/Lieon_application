@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.lieon.databinding.FragmentResultDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -62,6 +63,10 @@ class ResultDetailFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        binding.resultDetailBackwardButton.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         binding.playButton.setOnClickListener {
