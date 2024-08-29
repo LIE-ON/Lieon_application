@@ -3,16 +3,12 @@ package com.example.lieon.result.view.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.lieon.R
-import com.example.lieon.databinding.FragmentResultDetailBinding
 import com.example.lieon.databinding.FragmentResultSearchBinding
 import com.example.lieon.result.view.recyclerview.ResultItemClickListener
 import com.example.lieon.result.view.recyclerview.ResultRecyclerViewAdapter
@@ -75,12 +71,16 @@ class ResultSearchFragment : Fragment(), ResultItemClickListener {
         return binding.root
     }
 
-    override fun onItemDeleteClick(position: Int) {
+    override fun onItemDeleteClick(selectedID: Int) {
 
     }
 
-    override fun onItemDetailClick(position: Int) {
-
+    override fun onItemDetailClick(selectedID: Int) {
+        val bundle = Bundle().apply {
+            putInt("selectedId", selectedID)
+        }
+        findNavController().navigate(com.example.lieon.R.id.action_resultSearchFragment_to_resultDetailFragment, bundle)
     }
+
 
 }

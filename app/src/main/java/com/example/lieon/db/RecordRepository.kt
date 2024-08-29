@@ -15,6 +15,8 @@ class RecordRepository @Inject constructor(
 
     suspend fun deleteRecordHistory(recordHistoryEntity: RecordHistoryEntity) = recordHistoryDao.delete(recordHistoryEntity)
 
+    suspend fun deleteRecordHistoryById(selectID : Int) = recordHistoryDao.deleteById(selectID)
+
     suspend fun searchRecordHistoryById(id : Int) : RecordHistoryEntity? = recordHistoryDao.searchRecordHistoryById(id)
 
     suspend fun searchRecordHistoryByTitle(title : String) : List<RecordHistoryEntity> = recordHistoryDao.searchRecordHistoryByTitle(title)

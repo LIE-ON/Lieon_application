@@ -2,13 +2,10 @@ package com.example.lieon.result.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.lieon.databinding.FragmentResultBinding
 import com.example.lieon.result.view.recyclerview.ResultItemClickListener
@@ -51,15 +48,15 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         _binding = null
     }
 
-    override fun onItemDeleteClick(position: Int) {
+    override fun onItemDeleteClick(selectedID: Int) {
 //        Toast.makeText(requireContext(), "Clicked Delete item at position $position", Toast.LENGTH_SHORT).show()
-        resultViewModel.deleteRecordResult(position)
+        resultViewModel.deleteRecordResultById(selectedID)
     }
 
-    override fun onItemDetailClick(position: Int) {
+    override fun onItemDetailClick(selectedID: Int) {
 //        Toast.makeText(requireContext(), "Clicked Detail item at position $position", Toast.LENGTH_SHORT).show()
         val bundle = Bundle().apply {
-            putInt("selectedId", resultViewModel.getRecordResultId(position))
+            putInt("selectedId", selectedID)
         }
         findNavController().navigate(com.example.lieon.R.id.action_resultFragment_to_resultDetailFragment, bundle)
     }

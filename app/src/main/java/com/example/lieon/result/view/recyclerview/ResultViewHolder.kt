@@ -21,10 +21,10 @@ class ResultViewHolder(
     private val clickListener: ResultItemClickListener,
 ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-    private val checkBox: CheckBox = binding.resultItemCheckbox
     private val title: TextView = binding.resultItemTitle
-    private val date: TextView = binding.resultItemDate
     private val deleteImage : ImageView= binding.resultItemDeleteButton
+
+    private lateinit var result : RecordHistoryEntity
 
 
     init {
@@ -32,59 +32,63 @@ class ResultViewHolder(
         deleteImage.setOnClickListener(this)
     }
 
-
     fun bind(result: RecordHistoryEntity){
-        title.text = result.title
-        date.text = formatDate(result.time)
+        this.result = result
 
-        val checkedColor = android.graphics.Color.LTGRAY
-        val uncheckedColor = android.graphics.Color.WHITE
+        binding.apply {
+            title.text = result.title
+            resultItemDate.text = formatDate(result.time)
 
-        binding.root.setBackgroundColor(uncheckedColor)
-        checkBox.isChecked = false
+            root.setBackgroundColor(UNCHECKED_COLOR)
 
-        checkBox.setOnClickListener {
-            if (checkBox.isChecked) {
-                binding.root.setBackgroundColor(checkedColor)
-                date.visibility = View.GONE
-                binding.resultItemLeftImageSpace.visibility = View.VISIBLE
-                deleteImage.visibility = View.VISIBLE
-            } else {
-                binding.root.setBackgroundColor(uncheckedColor)
-                date.visibility = View.VISIBLE
-                binding.resultItemLeftImageSpace.visibility = View.GONE
-                deleteImage.visibility = View.GONE
+            resultItemCheckbox.isChecked = false
+
+            resultItemCheckbox.setOnClickListener {
+                if (resultItemCheckbox.isChecked) {
+                    binding.root.setBackgroundColor(CHECKED_COLOR)
+                    resultItemDate.visibility = View.GONE
+                    binding.resultItemLeftImageSpace.visibility = View.VISIBLE
+                    deleteImage.visibility = View.VISIBLE
+                } else {
+                    binding.root.setBackgroundColor(UNCHECKED_COLOR)
+                    resultItemDate.visibility = View.VISIBLE
+                    binding.resultItemLeftImageSpace.visibility = View.GONE
+                    deleteImage.visibility = View.GONE
+                }
             }
         }
+
+
     }
 
     override fun onClick(v: View?) {
         val position = bindingAdapterPosition
         if (position != RecyclerView.NO_POSITION) {
             when (v?.id) {
-                R.id.result_item_delete_button -> clickListener.onItemDeleteClick(position)
-                R.id.result_item_title -> clickListener.onItemDetailClick(position)
+                R.id.result_item_delete_button -> clickListener.onItemDeleteClick(result.id)
+                R.id.result_item_title -> clickListener.onItemDetailClick(result.id)
             }
 
         }
     }
 
     private fun formatDate(input: String): String {
-        // Define the input date-time format
-        val inputFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-
-        // Define the output date-time format
-        val outputFormat = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault())
+        val inputFormat = SimpleDateFormat(INPUT_DATE_FORMAT, Locale.getDefault())
+        val outputFormat = SimpleDateFormat(OUTPUT_DATE_FORMAT, Locale.getDefault())
 
         return try {
-            // Parse the input string to Date
             val date = inputFormat.parse(input)
-
-            // Format the Date to the desired output string
             date?.let { outputFormat.format(it) } ?: ""
         } catch (e: ParseException) {
             e.printStackTrace()
             ""
         }
+    }
+
+    companion object {
+        private const val CHECKED_COLOR = android.graphics.Color.LTGRAY
+        private const val UNCHECKED_COLOR = android.graphics.Color.WHITE
+        private const val INPUT_DATE_FORMAT = "yyyyMMdd_HHmmss"
+        private const val OUTPUT_DATE_FORMAT = "yyyy.MM.dd HH:mm:ss"
     }
 }
