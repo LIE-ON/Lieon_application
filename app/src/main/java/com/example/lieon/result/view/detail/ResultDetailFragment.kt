@@ -1,4 +1,4 @@
-package com.example.lieon.result.view
+package com.example.lieon.result.view.detail
 
 import android.media.MediaPlayer
 import android.os.Bundle

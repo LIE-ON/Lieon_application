@@ -1,4 +1,4 @@
-package com.example.lieon.result.view
+package com.example.lieon.result.view.detail
 
 import androidx.lifecycle.ViewModel
 import com.example.lieon.db.RecordHistoryEntity

@@ -35,6 +35,10 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         resultAdapter = ResultRecyclerViewAdapter(this@ResultFragment)
         binding.adapter = resultAdapter
 
+        binding.resultSearchButton.setOnClickListener {
+            findNavController().navigate(com.example.lieon.R.id.action_resultFragment_to_resultSearchFragment)
+        }
+
         resultViewModel.recordResults.observe(viewLifecycleOwner) {items ->
             resultAdapter.submitList(items)
         }
@@ -59,5 +63,7 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         }
         findNavController().navigate(com.example.lieon.R.id.action_resultFragment_to_resultDetailFragment, bundle)
     }
+
+
 
 }
