@@ -21,6 +21,7 @@
                 android:text="뒤로가기"/>
 
             <EditText
+                android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="검색"

@@ -22,7 +22,7 @@ interface RecordHistoryDao {
     suspend fun searchRecordHistoryById(id: Int): RecordHistoryEntity?
 
     @Query("SELECT * FROM recordHistory WHERE title LIKE '%' || :title || '%'")
-    suspend fun searchRecordHistoryByTitle(title : String) : RecordHistoryEntity?
+    suspend fun searchRecordHistoryByTitle(title : String) : List<RecordHistoryEntity>
 
     @Query("DELETE FROM recordHistory")
     suspend fun deleteAll()
