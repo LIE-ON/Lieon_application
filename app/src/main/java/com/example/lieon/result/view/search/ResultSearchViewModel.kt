@@ -26,4 +26,12 @@ class ResultSearchViewModel @Inject constructor(
     fun setSearchResultEmpty(){
         _searchResults.value = emptyList()
     }
+
+    fun deleteResultFromSearch(selectID : Int){
+        viewModelScope.launch {
+            recordRepository.deleteRecordHistoryById(selectID)
+            _searchResults.value = _searchResults.value?.filterNot { it.id == selectID }
+        }
+
+    }
 }

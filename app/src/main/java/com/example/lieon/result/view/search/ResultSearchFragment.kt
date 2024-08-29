@@ -72,7 +72,7 @@ class ResultSearchFragment : Fragment(), ResultItemClickListener {
     }
 
     override fun onItemDeleteClick(selectedID: Int) {
-
+        resultSearchViewModel.deleteResultFromSearch(selectedID)
     }
 
     override fun onItemDetailClick(selectedID: Int) {
