@@ -7,7 +7,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter" />
+            type="com.example.lieon.result.view.recyclerview.ResultRecyclerViewAdapter" />
 
         <variable
             name="viewmodel"

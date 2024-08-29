@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.lieon.databinding.FragmentResultBinding
-import com.example.lieon.result.recyclerview.ResultItemClickListener
-import com.example.lieon.result.recyclerview.ResultRecyclerViewAdapter
+import com.example.lieon.result.view.recyclerview.ResultItemClickListener
+import com.example.lieon.result.view.recyclerview.ResultRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 

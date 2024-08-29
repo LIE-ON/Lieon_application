@@ -1,4 +1,4 @@
-package com.example.lieon.result.recyclerview
+package com.example.lieon.result.view.recyclerview
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater

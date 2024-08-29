@@ -1,4 +1,4 @@
-package com.example.lieon.result.recyclerview
+package com.example.lieon.result.view.recyclerview
 
 import android.view.View
 import android.widget.CheckBox

@@ -1,4 +1,4 @@
-package com.example.lieon.result.recyclerview
+package com.example.lieon.result.view.recyclerview
 
 interface ResultItemClickListener {
     fun onItemDeleteClick(position: Int)
