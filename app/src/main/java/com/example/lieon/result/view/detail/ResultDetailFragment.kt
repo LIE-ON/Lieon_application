@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.lieon.databinding.FragmentResultDetailBinding
+import com.example.lieon.record.view.RecordAccuracyDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +68,9 @@ class ResultDetailFragment : Fragment() {
 
         binding.resultDetailBackwardButton.setOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.resultDetailNameChangeButton.setOnClickListener {
+
         }
 
         binding.playButton.setOnClickListener {
