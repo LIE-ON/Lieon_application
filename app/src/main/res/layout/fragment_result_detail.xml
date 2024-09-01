@@ -6,6 +6,12 @@
     tools:context=".result.view.detail.ResultDetailFragment"
     android:id="@+id/layout_result_detail_fragment">
 
+    <Button
+        android:id="@+id/result_detail_backward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="뒤로가기"
+        />
 
     <TextView
         android:id="@+id/recordName"
@@ -13,8 +19,17 @@
         android:layout_height="wrap_content"
         android:text="녹음 파일 이름"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp"
+        android:textSize="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/result_detail_name_change_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="변경"
+        android:layout_toRightOf="@id/recordName"/>
 
     <SeekBar
         android:id="@+id/seekBar"

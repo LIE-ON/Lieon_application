@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -30,5 +31,7 @@ interface RecordHistoryDao {
     @Query("DELETE FROM recordHistory")
     suspend fun deleteAll()
 
+    @Update
+    suspend fun updateRecordHistory(recordHistoryEntity: RecordHistoryEntity)
 
 }

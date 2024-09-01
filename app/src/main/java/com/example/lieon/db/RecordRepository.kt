@@ -25,6 +25,10 @@ class RecordRepository @Inject constructor(
         recordHistoryDao.deleteAll()
     }
 
+    suspend fun updateRecordHistory(recordHistoryEntity: RecordHistoryEntity) {
+        recordHistoryDao.updateRecordHistory(recordHistoryEntity)
+    }
+
 //    private fun convertFlowToList(data : Flow<List<RecordHistoryEntity>>): List<RecordHistoryEntity> = runBlocking {
 //        val result = mutableListOf<RecordHistoryEntity>()
 //        data.collect { dataList ->

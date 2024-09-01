@@ -21,4 +21,12 @@ class ResultDetailViewModel @Inject constructor(
     suspend fun searchRecordHistoryById(id: Int): RecordHistoryEntity? {
         return recordRepository.searchRecordHistoryById(id)
     }
+
+    suspend fun updateRecordHistory(recordHistoryEntity: RecordHistoryEntity){
+        recordRepository.updateRecordHistory(recordHistoryEntity)
+    }
+
+    fun getSelectedId(): Int {
+        return _selectedId
+    }
 }

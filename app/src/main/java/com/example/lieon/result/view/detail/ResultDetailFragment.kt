@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.lieon.databinding.FragmentResultDetailBinding
+import com.example.lieon.record.view.RecordAccuracyDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +66,17 @@ class ResultDetailFragment : Fragment() {
             }
         }
 
+        binding.resultDetailBackwardButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+        binding.resultDetailNameChangeButton.setOnClickListener {
+            val dialog = ResultDetailNameChangeDialog { newName ->
+                updateRecordName(newName)
+            }
+            dialog.show(parentFragmentManager,"ResultDetailNameChangeDialog")
+
+        }
+
         binding.playButton.setOnClickListener {
             if (mediaPlayer != null && !isPlaying) {
                 mediaPlayer?.start()
@@ -95,6 +108,21 @@ class ResultDetailFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun updateRecordName(newName:String){
+        binding.recordName.text = newName
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val selectedId = resultDetailViewModel.getSelectedId()
+            val recordHistoryEntity = resultDetailViewModel.searchRecordHistoryById(selectedId)
+
+            recordHistoryEntity?.let {
+                it.title = newName
+                resultDetailViewModel.updateRecordHistory(it)
+            }
+        }
+    }
+
     private fun initializeMediaPlayer(filePath: String) {
         Log.d("FilePath", "Initializing MediaPlayer with path: $filePath")
         mediaPlayer?.let {

@@ -29,6 +29,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
@@ -79,7 +80,7 @@ class RecordFragment : Fragment() {
             recordViewModel.setRecording(false)
             lifecycleScope.launch(Dispatchers.IO){
                 recordViewModel.insertRecord(
-                    RecordHistoryEntity(title = "test",
+                    RecordHistoryEntity(title = generateRandomString(),
                         filePath = filePath,
                         testResult = "80%",
                         time = convertDateToFormattedDate(Date()))
@@ -196,4 +197,11 @@ class RecordFragment : Fragment() {
 
     private fun convertDateToFormattedDate(date: Date) = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date)
 
+    private fun generateRandomString(): String {
+        val alphabet = ('A'..'Z') + ('a'..'z')  // 대문자와 소문자 알파벳 목록
+        val length = Random.nextInt(1, 7)  // 1에서 6 사이의 길이로 랜덤 설정
+        return (1..length)
+            .map { alphabet.random() }
+            .joinToString("")
+    }
 }
