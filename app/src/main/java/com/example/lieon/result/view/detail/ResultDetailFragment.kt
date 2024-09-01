@@ -70,6 +70,10 @@ class ResultDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.resultDetailNameChangeButton.setOnClickListener {
+            val dialog = ResultDetailNameChangeDialog { newName ->
+                updateRecordName(newName)
+            }
+            dialog.show(parentFragmentManager,"ResultDetailNameChangeDialog")
 
         }
 
@@ -104,6 +108,21 @@ class ResultDetailFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun updateRecordName(newName:String){
+        binding.recordName.text = newName
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val selectedId = resultDetailViewModel.getSelectedId()
+            val recordHistoryEntity = resultDetailViewModel.searchRecordHistoryById(selectedId)
+
+            recordHistoryEntity?.let {
+                it.title = newName
+                resultDetailViewModel.updateRecordHistory(it)
+            }
+        }
+    }
+
     private fun initializeMediaPlayer(filePath: String) {
         Log.d("FilePath", "Initializing MediaPlayer with path: $filePath")
         mediaPlayer?.let {

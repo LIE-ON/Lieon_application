@@ -32,6 +32,5 @@ class ResultSearchViewModel @Inject constructor(
             recordRepository.deleteRecordHistoryById(selectID)
             _searchResults.value = _searchResults.value?.filterNot { it.id == selectID }
         }
-
     }
 }
