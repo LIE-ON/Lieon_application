@@ -13,7 +13,6 @@ import com.example.lieon.db.RecordHistoryEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class TestFragment : Fragment() {
@@ -34,11 +33,11 @@ class TestFragment : Fragment() {
             lifecycleScope.launch {
                 recordViewModel.insertRecord(
                     RecordHistoryEntity(
-                    title = "test",
-                    filePath = "/test",
-                    testResult = "10%",
-                    time = Date(System.currentTimeMillis()).toString(),
-                )
+                        title = "test",
+                        filePath = "/test",
+                        testResult = "10%",
+                        time = Date(System.currentTimeMillis()).toString(),
+                    )
                 )
             }
         }
