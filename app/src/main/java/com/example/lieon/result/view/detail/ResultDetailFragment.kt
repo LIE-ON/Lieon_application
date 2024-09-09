@@ -18,12 +18,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 @AndroidEntryPoint
 class ResultDetailFragment : Fragment() {
 
     private var _binding : FragmentResultDetailBinding? = null
-
     private val binding get() = _binding!!
     private val resultDetailViewModel : ResultDetailViewModel by viewModels()
 
@@ -91,10 +91,6 @@ class ResultDetailFragment : Fragment() {
             }
         }
 
-//        binding.stopButton.setOnClickListener {
-//            stopAndResetMediaPlayer()
-//        }
-
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser && mediaPlayer != null) {
@@ -125,22 +121,23 @@ class ResultDetailFragment : Fragment() {
 
     private fun initializeMediaPlayer(filePath: String) {
         Log.d("FilePath", "Initializing MediaPlayer with path: $filePath")
-        mediaPlayer?.let {
-            it.stop()
-            it.reset()
-            it.release()
-        }
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(filePath)
-            prepare()
-            val durationMs = duration
-            binding.seekBar.max = durationMs
-            binding.recordingLength.text = formatDuration(0)
-            binding.endRecoridngFile.text = formatDuration(durationMs)
-            setOnCompletionListener {
-                stopAndResetMediaPlayer()
+        stopAndResetMediaPlayer()
+
+        try {
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(filePath)
+                prepare()
+                val durationMs = duration
+                binding.seekBar.max = durationMs
+                binding.recordingLength.text = formatDuration(0)
+                binding.endRecoridngFile.text = formatDuration(durationMs)
+                setOnCompletionListener {
+                    stopAndResetMediaPlayer()
+                }
+                updateSeekBarHandler.post(updateSeekBarRunnable)
             }
-            updateSeekBarHandler.post(updateSeekBarRunnable)
+        } catch (e: IOException) {
+            Log.e("MediaPlayer", "Error initializing MediaPlayer: ${e.message}")
         }
     }
 
