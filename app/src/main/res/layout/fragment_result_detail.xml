@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".result.view.detail.ResultDetailFragment"
+    android:id="@+id/layout_result_detail_fragment">
+
+    <Button
+        android:id="@+id/result_detail_backward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="뒤로가기"
+        />
+
+    <TextView
+        android:id="@+id/recordName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="녹음 파일 이름"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/result_detail_name_change_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="변경"
+        android:layout_toRightOf="@id/recordName"/>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recordName"
+        android:layout_marginTop="200dp"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/startRecoridngFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textSize="18dp"
+        android:layout_below="@id/seekBar"
+        android:layout_marginLeft="10dp"/>
+
+
+    <TextView
+        android:id="@+id/endRecoridngFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/seekBar"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:text="00:00:00"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/recordingLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textSize="40sp"
+        android:layout_below="@id/seekBar"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp"/>
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="재생"
+        android:background="@drawable/rounded_button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/recordingLength"/>
+
+<!--    <Button-->
+<!--        android:id="@+id/stopButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="중지"-->
+<!--        android:background="@drawable/rounded_button2"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/recordingLength"/>-->
+
+    <Button
+        android:id="@+id/rewindButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="뒤로감기"
+        android:layout_below="@id/recordingLength"
+        android:layout_toStartOf="@id/playButton"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button2"/>
+
+    <Button
+        android:id="@+id/forwardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="빨리감기"
+        android:layout_below="@id/recordingLength"
+        android:layout_toEndOf="@id/playButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button2"/>
+
+
+</RelativeLayout>
