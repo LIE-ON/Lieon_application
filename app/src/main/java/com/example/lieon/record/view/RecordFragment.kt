@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.example.lieon.R
 import com.example.lieon.alarm.NotificationUtils
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.db.RecordHistoryEntity
@@ -222,26 +224,29 @@ class RecordFragment : Fragment() {
 
     //파일 이름 변경 다이얼로그
     private fun showRenameFileDialog(uri: Uri, recordId: Long) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("파일 이름 수정")
+        val dialogView = layoutInflater.inflate(R.layout.dialog_rename_file, null)
+        val editText = dialogView.findViewById<EditText>(R.id.input_new_file_name)
+        val confirmButton = dialogView.findViewById<Button>(R.id.confirm_button)
+        val cancelButton = dialogView.findViewById<Button>(R.id.cancel_button)
 
-        val input = EditText(requireContext())
-        input.hint = "새 파일 이름을 입력하세요"
-        builder.setView(input)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
 
-        builder.setPositiveButton("확인") { dialog, _ ->
-            val newFileName = input.text.toString()
+        confirmButton.setOnClickListener {
+            val newFileName = editText.text.toString()
             renameFile(uri, newFileName)
             updateRecordTitle(recordId, newFileName)
-
-            dialog.dismiss()
+            dialogBuilder.dismiss()
         }
 
-        builder.setNegativeButton("취소") { dialog, _ ->
-            dialog.cancel()
+        cancelButton.setOnClickListener {
+            dialogBuilder.dismiss()
         }
-        builder.show()
+
+        dialogBuilder.show()
     }
+
 
 
     private fun renameFile(uri: Uri, newFileName: String) {
