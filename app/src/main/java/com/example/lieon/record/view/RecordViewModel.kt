@@ -1,12 +1,16 @@
 package com.example.lieon.record.view
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.db.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.net.URI
 import javax.inject.Inject
 
@@ -63,4 +67,15 @@ class RecordViewModel @Inject constructor(
         recordRepository.deleteAllRecordHistory()
     }
 
+    fun updateRecordTitle(recordId: Long, newTitle: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val record = recordRepository.getRecordById(recordId)
+            Log.d("RecordUpdate", "Record fetched: $record")
+            record?.let {
+                it.title = newTitle
+                recordRepository.updateRecordHistory(it)
+                Log.d("RecordUpdate", "Record updated with new title: $newTitle")
+            } ?: Log.d("RecordUpdate", "Record not found with ID: $recordId")
+        }
+    }
 }
