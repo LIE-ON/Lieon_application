@@ -42,7 +42,7 @@ class ResultDetailViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             recordRepository.updateRecordHistory(recordHistoryEntity)
         }
-        _recordHistory.value = recordHistoryEntity
+        _recordHistory.postValue(recordHistoryEntity)
     }
 
     fun getSelectedId(): Int {
