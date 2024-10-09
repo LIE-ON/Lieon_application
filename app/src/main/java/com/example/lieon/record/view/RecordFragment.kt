@@ -1,6 +1,7 @@
 package com.example.lieon.record.view
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
@@ -9,14 +10,19 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import com.example.lieon.R
 import com.example.lieon.alarm.NotificationUtils
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.db.RecordHistoryEntity
@@ -24,7 +30,6 @@ import com.example.lieon.audio.AudioManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -37,9 +42,11 @@ class RecordFragment : Fragment() {
     private var _binding: FragmentRecordBinding? = null
     private val binding: FragmentRecordBinding get() = _binding!!
 
-    private var audioManager : AudioManager? = null
+    private var audioManager: AudioManager? = null
 
-    private val recordViewModel : RecordViewModel by viewModels()
+    private val recordViewModel: RecordViewModel by viewModels()
+
+    private var recordId: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +59,7 @@ class RecordFragment : Fragment() {
 
         NotificationUtils.createNotificationChannel(requireContext())
 
-        var endRecordTime : Long? = null
+        var endRecordTime: Long? = null
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = recordViewModel
@@ -78,13 +85,21 @@ class RecordFragment : Fragment() {
             endRecordTime = System.currentTimeMillis()
             recordViewModel.setEndRecordTime(endRecordTime!!)
             recordViewModel.setRecording(false)
-            lifecycleScope.launch(Dispatchers.IO){
-                recordViewModel.insertRecord(
-                    RecordHistoryEntity(title = generateRandomString(),
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                val recordId = recordViewModel.insertRecord(
+                    RecordHistoryEntity(
+                        title = generateRandomString(),
                         filePath = filePath,
                         testResult = "80%",
-                        time = convertDateToFormattedDate(Date()))
+                        time = convertDateToFormattedDate(Date())
+                    )
                 )
+                Log.d("RecordInsert", "Record ID: $recordId")
+
+                lifecycleScope.launch(Dispatchers.Main) {
+                    showRenameFileDialog(recordViewModel.getCurrentUri(), recordId)
+                }
             }
 
             binding.chronometer.base = SystemClock.elapsedRealtime()
@@ -170,6 +185,7 @@ class RecordFragment : Fragment() {
 
     private fun getFileDescriptor(uri: Uri) = requireContext().contentResolver.openFileDescriptor(uri, "w")?.fileDescriptor
         ?: throw IOException("Cannot open file descriptor for URI: $uri")
+
     private fun createFileUri(): Uri {
         val timeStamp = convertDateToFormattedDate(Date())
         val fileName = "[Lieon] 녹음 파일_$timeStamp"
@@ -183,6 +199,7 @@ class RecordFragment : Fragment() {
         return requireContext().contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
             ?: throw IOException("파일 경로 생성 오류 발생")
     }
+
     private fun getFilePathFromUri(uri: Uri): String? {
         val projection = arrayOf(MediaStore.MediaColumns.DATA)
         var filePath: String? = null
@@ -203,5 +220,60 @@ class RecordFragment : Fragment() {
         return (1..length)
             .map { alphabet.random() }
             .joinToString("")
+    }
+
+    //파일 이름 변경 다이얼로그
+    private fun showRenameFileDialog(uri: Uri, recordId: Long) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_rename_file, null)
+        val editText = dialogView.findViewById<EditText>(R.id.input_new_file_name)
+        val confirmButton = dialogView.findViewById<Button>(R.id.confirm_button)
+        val cancelButton = dialogView.findViewById<Button>(R.id.cancel_button)
+
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        confirmButton.setOnClickListener {
+            val newFileName = editText.text.toString()
+            renameFile(uri, newFileName)
+            updateRecordTitle(recordId, newFileName)
+            updateFilePath(recordId,uri)
+            dialogBuilder.dismiss()
+        }
+
+        cancelButton.setOnClickListener {
+            dialogBuilder.dismiss()
+        }
+
+        dialogBuilder.show()
+    }
+
+
+    private fun renameFile(uri: Uri, newFileName: String) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "$newFileName")
+        }
+        val updatedRows = requireContext().contentResolver.update(uri, contentValues, null, null)
+        Log.d("RenameFile", "Number of updated rows: $updatedRows")
+        Log.d("NewFileName:", "$newFileName")
+        if (updatedRows <= 0) {
+            Log.e("RenameFile", "파일 이름 변경 실패")
+        }
+    }
+
+    private fun updateFilePath(recordId: Long, uri: Uri) {
+        val newFilePath = getFilePathFromUri(uri)
+        newFilePath?.let { path ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                recordViewModel.updateRecordFilePath(recordId, path)
+            }
+        }
+    }
+
+    private fun updateRecordTitle(recordId: Long, newTitle: String) {
+        Log.d("RecordId:","$recordId")
+        lifecycleScope.launch(Dispatchers.IO) {
+            recordViewModel.updateRecordTitle(recordId, newTitle)
+        }
     }
 }

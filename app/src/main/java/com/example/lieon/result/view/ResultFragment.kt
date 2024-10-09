@@ -40,6 +40,14 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
             resultAdapter.submitList(items)
         }
 
+        resultViewModel.sortButtonText.observe(viewLifecycleOwner) { buttonText ->
+            binding.sortButton.text = buttonText
+        }
+
+        binding.sortButton.setOnClickListener {
+            resultViewModel.toggleSorting()
+        }
+
         return binding.root
     }
 

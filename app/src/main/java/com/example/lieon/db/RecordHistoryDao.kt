@@ -14,8 +14,8 @@ interface RecordHistoryDao {
     fun getAllRecordHistories(): LiveData<List<RecordHistoryEntity>>
 
     @Insert
-    suspend fun insert(recordHistoryEntity: RecordHistoryEntity)
-
+    //suspend fun insert(recordHistoryEntity: RecordHistoryEntity)
+    suspend fun insert(record: RecordHistoryEntity): Long
     @Delete
     suspend fun delete(recordHistoryEntity: RecordHistoryEntity)
 
@@ -33,5 +33,11 @@ interface RecordHistoryDao {
 
     @Update
     suspend fun updateRecordHistory(recordHistoryEntity: RecordHistoryEntity)
+
+    @Query("SELECT * FROM recordHistory WHERE id = :recordId LIMIT 1")
+    suspend fun getRecordById(recordId: Long): RecordHistoryEntity?
+
+    @Update
+    suspend fun updateRecord(record: RecordHistoryEntity)
 
 }

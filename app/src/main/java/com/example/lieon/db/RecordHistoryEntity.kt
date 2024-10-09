@@ -9,5 +9,5 @@ data class RecordHistoryEntity(
     var title : String,
     val time : String,
     val testResult: String,
-    val filePath : String
+    var filePath : String
 )
