@@ -1,75 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".result.view.detail.ResultDetailFragment"
-    android:id="@+id/layout_result_detail_fragment">
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <Button
-        android:id="@+id/result_detail_backward_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="뒤로가기"
-        />
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp">  <!-- Add margin to separate from other elements -->
 
-    <TextView
-        android:id="@+id/recordName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="녹음 파일 이름"
-        android:layout_centerHorizontal="true"
-        android:textSize="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/result_detail_backward_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_1"
+            android:text="뒤로가기"
+            android:padding="10dp"
+            android:layout_marginEnd="8dp" />  <!-- Margin to the right -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/result_detail_name_change_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="변경"
-        android:layout_toRightOf="@id/recordName"/>
+        <TextView
+            android:id="@+id/recordName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="녹음 파일 이름"
+            android:textSize="24sp"
+            android:layout_gravity="center_vertical"
+             />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/result_detail_name_change_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이름변경"
+            android:backgroundTint="@color/purple_1"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
 
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recordName"
-        android:layout_marginTop="200dp"
-        android:padding="10dp"/>
+        android:layout_marginTop="160dp"
+        android:padding="10dp"
+        android:thumbTint="@color/purple_1"
+        android:progressTint="@color/purple_1" />
 
-    <TextView
-        android:id="@+id/startRecoridngFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00:00:00"
-        android:textSize="18dp"
-        android:layout_below="@id/seekBar"
-        android:layout_marginLeft="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/startRecoridngFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp" />
 
-    <TextView
-        android:id="@+id/endRecoridngFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/seekBar"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="3dp"
-        android:text="00:00:00"
-        android:textSize="18dp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/endRecoridngFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="end" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/recordingLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00:00"
-        android:textSize="40sp"
-        android:layout_below="@id/seekBar"
-        android:layout_marginTop="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp"/>
+        android:textSize="45sp"
+        android:textColor="@color/purple_1"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/playButton"
@@ -77,40 +107,8 @@
         android:layout_height="wrap_content"
         android:text="재생"
         android:background="@drawable/rounded_button2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/recordingLength"/>
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:layout_gravity="center_horizontal" />
 
-<!--    <Button-->
-<!--        android:id="@+id/stopButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="중지"-->
-<!--        android:background="@drawable/rounded_button2"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_below="@id/recordingLength"/>-->
-
-    <Button
-        android:id="@+id/rewindButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="뒤로감기"
-        android:layout_below="@id/recordingLength"
-        android:layout_toStartOf="@id/playButton"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_button2"/>
-
-    <Button
-        android:id="@+id/forwardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="빨리감기"
-        android:layout_below="@id/recordingLength"
-        android:layout_toEndOf="@id/playButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_button2"/>
-
-
-</RelativeLayout>
+</LinearLayout>
