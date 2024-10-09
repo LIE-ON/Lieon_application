@@ -237,6 +237,7 @@ class RecordFragment : Fragment() {
             val newFileName = editText.text.toString()
             renameFile(uri, newFileName)
             updateRecordTitle(recordId, newFileName)
+            updateFilePath(recordId,uri)
             dialogBuilder.dismiss()
         }
 
@@ -248,16 +249,24 @@ class RecordFragment : Fragment() {
     }
 
 
-
     private fun renameFile(uri: Uri, newFileName: String) {
         val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "$newFileName.mp4")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "$newFileName")
         }
         val updatedRows = requireContext().contentResolver.update(uri, contentValues, null, null)
         Log.d("RenameFile", "Number of updated rows: $updatedRows")
         Log.d("NewFileName:", "$newFileName")
         if (updatedRows <= 0) {
             Log.e("RenameFile", "파일 이름 변경 실패")
+        }
+    }
+
+    private fun updateFilePath(recordId: Long, uri: Uri) {
+        val newFilePath = getFilePathFromUri(uri)
+        newFilePath?.let { path ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                recordViewModel.updateRecordFilePath(recordId, path)
+            }
         }
     }
 

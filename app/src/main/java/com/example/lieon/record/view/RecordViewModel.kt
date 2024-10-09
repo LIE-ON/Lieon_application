@@ -78,4 +78,18 @@ class RecordViewModel @Inject constructor(
             } ?: Log.d("RecordUpdate", "Record not found with ID: $recordId")
         }
     }
+
+    fun updateRecordFilePath(recordId: Long, newFilePath: String) {
+        viewModelScope.launch {
+            val record = recordRepository.getRecordById(recordId)
+            Log.d("RecordUpdate", "Record fetched: $record")
+            record?.let {
+                it.filePath = newFilePath
+                recordRepository.updateRecordHistory(it)
+                Log.d("RecordUpdate", "Record updated with new filePath: $newFilePath")
+            } ?: Log.d("RecordUpdate", "Record not found with ID: $recordId")
+        }
+    }
+
 }
+
