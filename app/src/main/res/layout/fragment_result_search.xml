@@ -22,19 +22,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_marginTop="5dp">
 
             <Button
                 android:id="@+id/search_backward_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/purple_1"
                 android:text="뒤로가기"/>
 
             <EditText
                 android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="검색"
+                android:hint="찾는 파일의 이름을 입력하세요"
+                android:backgroundTint="@color/purple_2"
                 />
         </LinearLayout>
 
@@ -47,7 +51,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="검색 결과"/>
+                android:layout_marginLeft="10dp"
+                android:text="검색 결과"
+                android:paddingLeft="5dp"
+                android:paddingBottom="10dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

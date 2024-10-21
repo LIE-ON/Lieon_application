@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/dialog_background">
+    android:background="@drawable/dialog_background"
+    android:layout_margin="20dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -11,7 +12,6 @@
         android:textAlignment="center"
         android:text="파일 이름 수정"
         android:textSize="25dp"
-        android:textColor="@color/purple_1"
         android:layout_marginBottom="20dp" />
 
     <EditText
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="새 파일 이름을 입력하세요"
+        android:backgroundTint="@color/purple_2"
         android:textAlignment="center"
         android:padding="10dp" />
 
