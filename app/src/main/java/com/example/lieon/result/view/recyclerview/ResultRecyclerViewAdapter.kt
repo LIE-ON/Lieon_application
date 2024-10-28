@@ -5,11 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-
 import com.example.lieon.databinding.ItemResultBinding
 import com.example.lieon.db.RecordHistoryEntity
-import com.example.lieon.result.model.RecordResults
-import com.example.lieon.result.view.ResultViewModel
 
 class ResultRecyclerViewAdapter(
     private val clickListener: ResultItemClickListener,
@@ -24,7 +21,6 @@ class ResultRecyclerViewAdapter(
             ),
             clickListener
         )
-
     }
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
@@ -46,5 +42,4 @@ class ResultRecyclerViewAdapter(
             }
         }
     }
-
 }

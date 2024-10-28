@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lieon.databinding.FragmentResultBinding
 import com.example.lieon.result.view.recyclerview.ResultItemClickListener
 import com.example.lieon.result.view.recyclerview.ResultRecyclerViewAdapter
@@ -31,6 +32,7 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
         binding.viewmodel = resultViewModel
         resultAdapter = ResultRecyclerViewAdapter(this@ResultFragment)
         binding.adapter = resultAdapter
+        binding.resultRecyclerview.layoutManager = LinearLayoutManager(context)
 
         binding.resultSearchButton.setOnClickListener {
             findNavController().navigate(com.example.lieon.R.id.action_resultFragment_to_resultSearchFragment)
@@ -38,6 +40,17 @@ class ResultFragment () : Fragment(), ResultItemClickListener {
 
         resultViewModel.recordResults.observe(viewLifecycleOwner) {items ->
             resultAdapter.submitList(items)
+            binding.resultRecyclerview.postDelayed({
+                binding.resultRecyclerview.scrollToPosition(0)
+            }, 50)
+        }
+
+        resultViewModel.sortButtonText.observe(viewLifecycleOwner) { buttonText ->
+            binding.sortButton.text = buttonText
+        }
+
+        binding.sortButton.setOnClickListener {
+            resultViewModel.toggleSorting()
         }
 
         return binding.root

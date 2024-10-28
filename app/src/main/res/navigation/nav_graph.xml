@@ -33,6 +33,9 @@
             app:destination="@+id/resultSearchFragment">
         </action>
 
+        <action
+            android:id="@+id/action_resultFragment_to_resultOrderFragment"
+            app:destination="@+id/resultOrderFragment"/>
 
     </fragment>
 
@@ -60,6 +63,25 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/resultOrderFragment"
+        android:name="com.example.lieon.result.view.ResultOrderFragment"
+        android:label="fragment_result_order"
+        tools:layout="@layout/fragment_result_order">
+
+        <action
+            android:id="@+id/action_resultOrderFragment_to_resultFragment"
+            app:destination="@+id/resultFragment"/>
+
+        <action
+            android:id="@+id/action_resultOrderFragment_to_resultDetailFragment"
+            app:destination="@+id/resultDetailFragment">
+
+            <argument
+                android:name="selectedId"
+                app:argType="integer"/>
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/testFragment"
