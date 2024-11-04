@@ -1,6 +1,8 @@
 package com.example.lieon.common
 
 import com.arthenica.mobileffmpeg.BuildConfig
+import com.example.lieon.record.data.repository.LieDetectionRepository
+import com.example.lieon.record.data.source.LieDetectionSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +16,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    private const val BASE_URL = "http://10.0.2.2:8080/"
     @Provides
-    fun provideBaseUrl() = Constants.BASE_URL
+    fun provideBaseUrl() = BASE_URL
 
     @Singleton
     @Provides
@@ -42,5 +45,16 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideLieDetectionSource(retrofit: Retrofit): LieDetectionSource {
+        return retrofit.create(LieDetectionSource::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLieDetectionRepository(lieDetectionSource: LieDetectionSource) = LieDetectionRepository(lieDetectionSource)
+
 
 }

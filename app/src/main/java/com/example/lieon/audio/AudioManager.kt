@@ -12,7 +12,6 @@ class AudioManager (
     private var audioRecorder : AudioRecorder = AudioRecorder()
     private var audioConverter: AudioConverter = AudioConverter()
 
-
     fun startRecord(fileDescriptor: FileDescriptor){
         audioRecorder.record(fileDescriptor)
         Log.d("record", "녹음 시작")
