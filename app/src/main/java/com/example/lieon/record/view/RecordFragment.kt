@@ -64,6 +64,8 @@ class RecordFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = recordViewModel
 
+        audioManager = AudioManager()
+
         binding.recordButton.setOnClickListener {
             binding.chronometer.base = SystemClock.elapsedRealtime()
             val uri = createFileUri()

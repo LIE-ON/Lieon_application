@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_button2"
-                android:src="@drawable/mic"
+                android:src="@drawable/call"
                 android:visibility="@{viewmodel.isRecording() ? View.GONE : View.VISIBLE}"
                 android:padding="20dp"/>
 
@@ -89,42 +89,39 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center|end"
-                android:text="중간 결과 : "
-                android:textColor="#000000"
-                android:textSize="22dp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center|end"-->
+<!--                android:text="보이스피싱 "-->
+<!--                android:textColor="#000000"-->
+<!--                android:textSize="22dp" />-->
 
             <TextView
                 android:id="@+id/intermediate_results_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="80"
+                android:text="로딩 중"
                 android:textColor="#673AB7"
                 android:textSize="22dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="337dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="2"
             android:orientation="horizontal">
-
-            <!--            <View-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_weight="0.25"/>-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -133,10 +130,8 @@
                 android:gravity="center|end"
                 android:text="목표 정확도 : "
                 android:textColor="#000000"
-                android:textSize="22dp"
-
+                android:textSize="20dp"
                 />
-
 
             <TextView
                 android:id="@+id/accuracy_goal_text"
@@ -145,36 +140,34 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@{viewmodel.goalAccuracy.toString()}"
-                android:textSize="22dp"
-                android:textColor="#673AB7"/>
+                android:textColor="#673AB7"
+                android:textSize="22dp" />
 
-<!--            <Button-->
-<!--                android:id="@+id/accuracy_goal_button"-->
-<!--                android:layout_width="80dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:background="@drawable/rounded_button_background"-->
-<!--                android:text="설정하기" />-->
+            <Button
+                android:id="@+id/accuracy_goal_button"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/rounded_button_background"
+                android:gravity="center"
+                android:text="설정하기" />
 
-            <!--            <View-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_weight="0.25"/>-->
         </LinearLayout>
 
-        <Button
-            android:id="@+id/accuracy_goal_button"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/rounded_button_background"
-            android:text="설정하기" />
+<!--        <Button-->
+<!--            android:id="@+id/accuracy_goal_button"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginLeft="35dp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:background="@drawable/rounded_button_background"-->
+<!--            android:text="설정하기" />-->
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2.5"/>
+            android:layout_weight="2"/>
 
 
 
