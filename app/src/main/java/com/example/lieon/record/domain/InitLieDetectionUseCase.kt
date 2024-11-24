@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Base64
 import android.util.Log
 import com.example.lieon.record.data.repository.LieDetectionRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
 import javax.inject.Inject
@@ -20,19 +23,34 @@ class InitLieDetectionUseCase @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     suspend fun invoke(uri: Uri): String? {
-
         val file = getFileFromUri(context, uri) ?: return null
+        val base64EncodedString = convertFileToBase64(file)
+        base64EncodedString?.let {
+            lieDetectionRepository.uploadAudio(base64EncodedString)
+        }
+        return base64EncodedString
+    }
 
-        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-        val body = MultipartBody.Part.createFormData("audioFile", file.name, requestFile)
+    private fun convertFileToBase64(file: File): String? {
+        return try {
+            val inputStream = FileInputStream(file)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val buffer = ByteArray(1024)
+            var length: Int
 
-        val response = lieDetectionRepository.uploadAudio(body)
+            while (inputStream.read(buffer).also { length = it } != -1) {
+                byteArrayOutputStream.write(buffer, 0, length)
+            }
 
-        return response.getOrElse {
-            Log.d("censor", "수신 실패: ${it.message}")
-            throw it
-        }.let {
-            it.testResult
+            val byteArray = byteArrayOutputStream.toByteArray()
+            inputStream.close()
+            byteArrayOutputStream.close()
+
+            // Base64 인코딩
+            Base64.encodeToString(byteArray, Base64.DEFAULT)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 
@@ -75,28 +93,5 @@ class InitLieDetectionUseCase @Inject constructor(
             }
         }
         return result!!
-    }
-
-    private fun getFileFromRawResource(context: Context, resId: Int, fileName: String): File? {
-        val inputStream: InputStream = context.resources.openRawResource(resId)
-        val file = File(context.cacheDir, fileName)
-
-        try {
-            val outputStream = FileOutputStream(file)
-            val buffer = ByteArray(1024)
-            var length: Int
-
-            while (inputStream.read(buffer).also { length = it } != -1) {
-                outputStream.write(buffer, 0, length)
-            }
-
-            outputStream.close()
-            inputStream.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
-        }
-
-        return file
     }
 }

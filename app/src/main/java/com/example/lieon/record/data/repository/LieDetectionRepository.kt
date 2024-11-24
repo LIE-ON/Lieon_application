@@ -1,6 +1,6 @@
 package com.example.lieon.record.data.repository
 
-import com.example.lieon.record.data.response.LieDetectionResponse
+import com.example.lieon.record.data.payload.LieDetectionResponse
 import com.example.lieon.record.data.source.LieDetectionSource
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -8,7 +8,7 @@ import javax.inject.Inject
 class LieDetectionRepository @Inject constructor(
     private val lieDetectionSource: LieDetectionSource
 ) {
-    suspend fun uploadAudio(audio: MultipartBody.Part): Result<LieDetectionResponse> {
+    suspend fun uploadAudio(audio: String): Result<LieDetectionResponse> {
         return kotlin.runCatching {
             val response = lieDetectionSource.postRecordUpload(audio)
             if (response.isSuccessful) {
