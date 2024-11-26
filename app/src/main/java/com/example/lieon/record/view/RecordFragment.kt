@@ -20,18 +20,23 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.lieon.R
 import com.example.lieon.alarm.NotificationUtils
+import com.example.lieon.audio.AudioConverter
 import com.example.lieon.audio.AudioManager
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.db.RecordHistoryEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -84,27 +89,38 @@ class RecordFragment : Fragment() {
 
         binding.stopButton.setOnClickListener {
             val filePath = getFilePathFromUri(recordViewModel.getCurrentUri())!!
-            audioManager?.stopRecord(filePath)
-            endRecordTime = System.currentTimeMillis()
-            recordViewModel.setEndRecordTime(endRecordTime!!)
-            recordViewModel.setRecording(false)
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                val recordId = recordViewModel.insertRecord(
-                    RecordHistoryEntity(
-                        title = generateRandomString(),
-                        filePath = filePath,
-                        testResult = "80%",
-                        time = convertDateToFormattedDate(Date()),
-                    )
-                )
-                Log.d("RecordInsert", "Record ID: $recordId")
+            audioManager?.stopRecord(filePath, object : AudioConverter.ConvertCallback {
+                override fun onConversionSuccess(outputFilePath: String) {
+                    val outputUri = getUriForFile(outputFilePath) ?: return
 
-                lifecycleScope.launch(Dispatchers.Main) {
-                    showRenameFileDialog(recordViewModel.getCurrentUri(), recordId)
-                    onRecordingCompleted(recordId)
+                    // 변환된 .wav 파일 경로 사용
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        recordViewModel.getPredictionResult(outputUri)
+
+                        val recordId = recordViewModel.insertRecord(
+                            RecordHistoryEntity(
+                                title = generateRandomString(),
+                                filePath = outputFilePath, // 변환된 .wav 파일 경로
+                                testResult = "80%",
+                                time = convertDateToFormattedDate(Date())
+                            )
+                        )
+                        Log.d("RecordInsert", "Record ID: $recordId")
+
+
+//                        }
+                    }
                 }
-            }
+
+                override fun onConversionFailure() {
+                    // 변환 실패 처리
+                    Log.e("AudioConverter", "WAV 변환 실패")
+                }
+            })
+
+            recordViewModel.setEndRecordTime(System.currentTimeMillis())
+            recordViewModel.setRecording(false)
 
             binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
@@ -231,6 +247,20 @@ class RecordFragment : Fragment() {
         }
         return filePath
     }
+
+    private fun getUriForFile(filePath: String): Uri? {
+        val file = File(filePath)
+        return if (file.exists()) {
+            FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                file
+            )
+        } else {
+            null
+        }
+    }
+
 
     private fun convertDateToFormattedDate(date: Date) = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date)
 

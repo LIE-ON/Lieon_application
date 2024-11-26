@@ -8,9 +8,9 @@ import javax.inject.Inject
 class LieDetectionRepository @Inject constructor(
     private val lieDetectionSource: LieDetectionSource
 ) {
-    suspend fun uploadAudio(audio: String): Result<LieDetectionResponse> {
+    suspend fun uploadAudio(audio: MultipartBody.Part): Result<LieDetectionResponse> {
         return kotlin.runCatching {
-            val response = lieDetectionSource.postRecordUpload(audio)
+            val response = lieDetectionSource.predict(audio)
             if (response.isSuccessful) {
                 response.body() ?: throw RuntimeException("바디 없음")
             } else {

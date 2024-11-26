@@ -16,19 +16,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "http://10.0.2.2:8080/"
     @Provides
-    fun provideBaseUrl() = BASE_URL
+    fun provideBaseUrl() = Constants.BASE_URL
 
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY // 디버그 모드에서는 요청 및 응답 바디를 로그로 출력
-            } else {
-                HttpLoggingInterceptor.Level.NONE // 릴리즈 모드에서는 로그를 출력하지 않음
-            }
+            // 항상 BODY 레벨로 로그를 출력하도록 설정
+            level = HttpLoggingInterceptor.Level.BODY
         }
 
         return OkHttpClient.Builder()

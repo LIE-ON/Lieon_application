@@ -5,3 +5,14 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.23" apply false
     id("com.google.dagger.hilt.android") version "2.51.1" apply false
 }
+
+buildscript {
+    repositories {
+        google()  // Make sure this is included
+        mavenCentral()
+        // Add other repositories if necessary
+    }
+    dependencies {
+        classpath ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+    }
+}

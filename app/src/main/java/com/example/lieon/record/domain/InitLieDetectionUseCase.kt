@@ -22,32 +22,24 @@ class InitLieDetectionUseCase @Inject constructor(
     private val lieDetectionRepository: LieDetectionRepository,
     @ApplicationContext private val context: Context
 ) {
-    suspend fun invoke(uri: Uri): String? {
-        val file = getFileFromUri(context, uri) ?: return null
-        val base64EncodedString = convertFileToBase64(file)
-        base64EncodedString?.let {
-            lieDetectionRepository.uploadAudio(base64EncodedString)
-        }
-        return base64EncodedString
+    suspend fun invoke(uri: Uri): String {
+        val file = getFileFromUri(context, uri) ?: return "-1"
+
+        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+        val result = lieDetectionRepository.uploadAudio(body)
+
+        return result.getOrNull()?.result.toString()
     }
 
-    private fun convertFileToBase64(file: File): String? {
+    private fun convertFileToMultipart(file: File): MultipartBody.Part? {
         return try {
-            val inputStream = FileInputStream(file)
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            val buffer = ByteArray(1024)
-            var length: Int
-
-            while (inputStream.read(buffer).also { length = it } != -1) {
-                byteArrayOutputStream.write(buffer, 0, length)
-            }
-
-            val byteArray = byteArrayOutputStream.toByteArray()
-            inputStream.close()
-            byteArrayOutputStream.close()
-
-            // Base64 인코딩
-            Base64.encodeToString(byteArray, Base64.DEFAULT)
+            val requestFile: RequestBody = RequestBody.create(
+                "audio/wav".toMediaTypeOrNull(), // wav 파일의 미디어 타입
+                file
+            )
+            MultipartBody.Part.createFormData("file", file.name, requestFile)  // 'file'은 서버에서 받을 파라미터 이름
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -74,7 +66,6 @@ class InitLieDetectionUseCase @Inject constructor(
         return file
     }
 
-    @SuppressLint("Range")
     private fun getFileName(context: Context, uri: Uri): String {
         var result: String? = null
         if (uri.scheme == "content") {

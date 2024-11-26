@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lieon.db.RecordHistoryEntity
 import com.example.lieon.db.RecordRepository
+import com.example.lieon.record.domain.InitLieDetectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecordViewModel @Inject constructor(
-    private val recordRepository : RecordRepository
+    private val recordRepository : RecordRepository,
+    private val initLieDetectionUseCase: InitLieDetectionUseCase
 ) : ViewModel() {
 
     private val _endRecordTime = MutableLiveData<Long>()
@@ -100,6 +102,13 @@ class RecordViewModel @Inject constructor(
                 }
             }
         Log.d("RecordViewModel", "Voice phishing status set: $isPhishing")
+    }
+
+    fun getPredictionResult(uri: Uri){
+        viewModelScope.launch {
+            val result = initLieDetectionUseCase.invoke(uri)
+            Log.d("TestReuslt", result)
+        }
     }
 
 }

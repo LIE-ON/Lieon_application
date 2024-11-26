@@ -1,8 +1,11 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -20,6 +23,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "BASE_URL",getKey("BASE_URL"))
     }
 
     buildTypes {
@@ -44,6 +49,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -86,4 +92,15 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation ("com.arthenica:mobile-ffmpeg-full:4.4")
+}
+
+fun getKey(propertyKey: String): String {
+    val properties = Properties()
+    val localPropertiesFile = File(rootDir, "local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { inputStream ->
+            properties.load(inputStream)
+        }
+    }
+    return properties.getProperty(propertyKey) ?: throw IllegalArgumentException("Key '$propertyKey' not found in local.properties")
 }
