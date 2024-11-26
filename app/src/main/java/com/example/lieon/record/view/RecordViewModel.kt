@@ -12,6 +12,7 @@ import com.example.lieon.record.domain.InitLieDetectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.URI
 import javax.inject.Inject
 
@@ -32,6 +33,10 @@ class RecordViewModel @Inject constructor(
     private lateinit var currentUri : Uri
 
     private var _goalAccuracy : MutableLiveData<Int> = MutableLiveData()
+
+    private val _recentResult = MutableLiveData<String>()
+    val recentResult: LiveData<String> get() = _recentResult
+
 
     val goalAccuracy : LiveData<Int> get() = _goalAccuracy
 
@@ -57,6 +62,14 @@ class RecordViewModel @Inject constructor(
 
     fun setGoalAccuracy(int: Int){
         _goalAccuracy.value = int
+    }
+
+    fun setRecentResult(result: String) {
+        _recentResult.value = result
+    }
+
+    fun getRecentResult(): String? {
+        return _recentResult.value
     }
 
     fun getAllRecords() = recordRepository.getAllRecordHistories()
@@ -106,16 +119,19 @@ class RecordViewModel @Inject constructor(
 
     suspend fun getPredictionResult(uri: Uri): String{
         var result = "null"
-        viewModelScope.launch {
-            result = initLieDetectionUseCase.invoke(uri)
-            Log.d("RecordViewModel", "result : $result")
-            if (result == "0"){
-                result = "보이스피싱이 아닙니다"
-            }
-            if (result == "1"){
-                result = "보이스피싱입니다"
-            }
+
+        // 비동기 작업을 suspend로 처리
+        val response = withContext(Dispatchers.IO) {
+            initLieDetectionUseCase.invoke(uri)
         }
+
+        result = when (response) {
+            "0" -> "보이스피싱이 아닙니다"
+            "1" -> "보이스피싱입니다"
+            else -> "알 수 없는 결과"
+        }
+
+        Log.d("RecordViewModel", "result : $result")
         return result
     }
 

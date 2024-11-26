@@ -33,6 +33,7 @@ import com.example.lieon.db.RecordHistoryEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -98,17 +99,23 @@ class RecordFragment : Fragment() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val result = recordViewModel.getPredictionResult(outputUri)
 
-                        val recordId = recordViewModel.insertRecord(
-                            RecordHistoryEntity(
-                                title = getFileNameFromUri(requireActivity(),outputUri) ?: generateRandomString(),
-                                filePath = outputFilePath, // 변환된 .wav 파일 경로
-                                testResult = result,
-                                time = convertDateToFormattedDate(Date())
+                        withContext(Dispatchers.Main) {
+                            recordViewModel.insertRecord(
+                                RecordHistoryEntity(
+                                    title = getFileNameFromUri(requireActivity(),outputUri) ?: generateRandomString(),
+                                    filePath = outputFilePath, // 변환된 .wav 파일 경로
+                                    testResult = result,
+                                    time = convertDateToFormattedDate(Date())
+                                )
                             )
-                        )
-                        Log.d("RecordInsert", "Record ID: $recordId")
-
+                            Log.d("RecordInsert", "Record Result: $result")
+                            onRecordingCompleted(result)
+                        }
                     }
+
+
+
+//                    onRecordingCompleted(recordId, recordViewModel.getRecentResult() ?: "null")
                 }
 
                 override fun onConversionFailure() {
@@ -116,6 +123,8 @@ class RecordFragment : Fragment() {
                     Log.e("AudioConverter", "WAV 변환 실패")
                 }
             })
+
+
 
             recordViewModel.setEndRecordTime(System.currentTimeMillis())
             recordViewModel.setRecording(false)
@@ -145,19 +154,11 @@ class RecordFragment : Fragment() {
         return binding.root
     }
 
-    private fun onRecordingCompleted(recordId: Long) {
+    private fun onRecordingCompleted(result:String) {
         // 초기 상태로 "로딩중"
-        binding.intermediateResultsText.text = "로딩중"
-
-        val randomValue = (0..100).random()
-
-        if (randomValue > 50) {
-            binding.intermediateResultsText.text = "보이스피싱입니다"
-        } else {
-            binding.intermediateResultsText.text = "보이스피싱이 아닙니다"
-        }
+        binding.intermediateResultsText.text = result
         // DB에 저장
-        saveIsVoicePhishing(recordId, binding.intermediateResultsText.text.toString())
+//        saveIsVoicePhishing(recordId, binding.intermediateResultsText.text.toString())
     }
 
 
