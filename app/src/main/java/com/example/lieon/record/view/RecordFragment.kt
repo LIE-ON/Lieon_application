@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
@@ -21,12 +23,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.example.lieon.R
 import com.example.lieon.alarm.NotificationUtils
+import com.example.lieon.audio.AudioManager
 import com.example.lieon.databinding.FragmentRecordBinding
 import com.example.lieon.db.RecordHistoryEntity
-import com.example.lieon.audio.AudioManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -94,13 +95,14 @@ class RecordFragment : Fragment() {
                         title = generateRandomString(),
                         filePath = filePath,
                         testResult = "80%",
-                        time = convertDateToFormattedDate(Date())
+                        time = convertDateToFormattedDate(Date()),
                     )
                 )
                 Log.d("RecordInsert", "Record ID: $recordId")
 
                 lifecycleScope.launch(Dispatchers.Main) {
                     showRenameFileDialog(recordViewModel.getCurrentUri(), recordId)
+                    onRecordingCompleted(recordId)
                 }
             }
 
@@ -126,10 +128,26 @@ class RecordFragment : Fragment() {
                 it.dismiss()
             }
         }
-
-
         return binding.root
     }
+
+    private fun onRecordingCompleted(recordId: Long) {
+        // 초기 상태로 "로딩중"
+        binding.intermediateResultsText.text = "로딩중"
+
+        val randomValue = (0..100).random()
+
+        if (randomValue > 50) {
+            binding.intermediateResultsText.text = "보이스피싱입니다"
+        } else {
+            binding.intermediateResultsText.text = "보이스피싱이 아닙니다"
+        }
+        // DB에 저장
+        saveIsVoicePhishing(recordId, binding.intermediateResultsText.text.toString())
+    }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -278,4 +296,12 @@ class RecordFragment : Fragment() {
             recordViewModel.updateRecordTitle(recordId, newTitle)
         }
     }
+
+    private fun saveIsVoicePhishing(recordId: Long, isvoicephishing: String) {
+        Log.d("RecordId:","$recordId")
+        lifecycleScope.launch(Dispatchers.IO) {
+            recordViewModel.setVoicePhishingStatus(recordId, isvoicephishing)
+        }
+    }
+
 }

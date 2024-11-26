@@ -91,5 +91,16 @@ class RecordViewModel @Inject constructor(
         }
     }
 
+    fun setVoicePhishingStatus(recordId:Long, isPhishing: String) {
+        viewModelScope.launch {
+                val record = recordRepository.getRecordById(recordId)
+                record?.let {
+                    it.testResult = isPhishing
+                    recordRepository.updateRecordHistory(it)
+                }
+            }
+        Log.d("RecordViewModel", "Voice phishing status set: $isPhishing")
+    }
+
 }
 

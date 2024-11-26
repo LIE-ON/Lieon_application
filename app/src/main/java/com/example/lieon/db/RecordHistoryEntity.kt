@@ -8,6 +8,6 @@ data class RecordHistoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     var title : String,
     val time : String,
-    val testResult: String,
+    var testResult: String,
     var filePath : String
 )

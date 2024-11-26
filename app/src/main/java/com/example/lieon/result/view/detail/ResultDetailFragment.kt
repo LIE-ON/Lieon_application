@@ -32,6 +32,7 @@ class ResultDetailFragment : Fragment() {
     private var mediaPlayer: MediaPlayer? = null
     private var mediaPlayerState = MediaPlayerState.IDLE
     private var filePath: String? = null
+    private var testResult: String? = null
 
     private enum class MediaPlayerState {
         IDLE, INITIALIZED, PREPARED, STARTED, PAUSED, STOPPED
@@ -63,7 +64,9 @@ class ResultDetailFragment : Fragment() {
                 record?.let { recordData ->
                     binding.recordName.text = recordData.title
                     filePath = recordData.filePath // Assigning file path to a variable
+                    testResult = recordData.testResult
                     Log.d("ResultDetailFragment", "FilePath: $filePath")
+                    Log.d("ResultDetailFragment", "testResult: $testResult")
                     initializeMediaPlayer(filePath!!)
                 }
             })
