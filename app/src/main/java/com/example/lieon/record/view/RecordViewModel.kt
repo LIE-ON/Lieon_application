@@ -104,11 +104,19 @@ class RecordViewModel @Inject constructor(
         Log.d("RecordViewModel", "Voice phishing status set: $isPhishing")
     }
 
-    fun getPredictionResult(uri: Uri){
+    suspend fun getPredictionResult(uri: Uri): String{
+        var result = "null"
         viewModelScope.launch {
-            val result = initLieDetectionUseCase.invoke(uri)
-            Log.d("TestReuslt", result)
+            result = initLieDetectionUseCase.invoke(uri)
+            Log.d("RecordViewModel", "result : $result")
+            if (result == "0"){
+                result = "보이스피싱이 아닙니다"
+            }
+            if (result == "1"){
+                result = "보이스피싱입니다"
+            }
         }
+        return result
     }
 
 }

@@ -96,20 +96,18 @@ class RecordFragment : Fragment() {
 
                     // 변환된 .wav 파일 경로 사용
                     lifecycleScope.launch(Dispatchers.IO) {
-                        recordViewModel.getPredictionResult(outputUri)
+                        val result = recordViewModel.getPredictionResult(outputUri)
 
                         val recordId = recordViewModel.insertRecord(
                             RecordHistoryEntity(
-                                title = generateRandomString(),
+                                title = getFileNameFromUri(requireActivity(),outputUri) ?: generateRandomString(),
                                 filePath = outputFilePath, // 변환된 .wav 파일 경로
-                                testResult = "80%",
+                                testResult = result,
                                 time = convertDateToFormattedDate(Date())
                             )
                         )
                         Log.d("RecordInsert", "Record ID: $recordId")
 
-
-//                        }
                     }
                 }
 
@@ -334,4 +332,16 @@ class RecordFragment : Fragment() {
         }
     }
 
+    fun getFileNameFromUri(context: Context, uri: Uri): String? {
+        var fileName: String? = null
+        val projection = arrayOf(MediaStore.MediaColumns.DISPLAY_NAME)
+
+        context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+                fileName = cursor.getString(columnIndex)
+            }
+        }
+        return fileName
+    }
 }
