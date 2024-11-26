@@ -82,6 +82,41 @@
                 android:layout_gravity="center"
                 android:text="recycleview 임시 데이터 삭제"/>
 
+            <Button
+                android:id="@+id/addLieDataButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="거짓용 데이터1 추가"/>
+
+            <Button
+                android:id="@+id/addLieDataButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="거짓용 데이터2 추가"/>
+
+            <Button
+                android:id="@+id/addLieDataButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="거짓용 데이터3 추가"/>
+
+            <Button
+                android:id="@+id/addLieDataButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="거짓용 데이터4 추가"/>
+
+            <Button
+                android:id="@+id/addLieDataButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="거짓용 데이터5 추가"/>
+
         </LinearLayout>
 
 

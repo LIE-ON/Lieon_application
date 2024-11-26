@@ -57,7 +57,7 @@ class ResultDetailFragment : Fragment() {
 
         arguments?.let {
             val selectedId = it.getInt("selectedId")
-            Toast.makeText(requireContext(), "$selectedId", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), "$selectedId", Toast.LENGTH_SHORT).show()
             resultDetailViewModel.setSelectedId(selectedId)
 
             resultDetailViewModel.recordHistory.observe(viewLifecycleOwner, Observer { record ->

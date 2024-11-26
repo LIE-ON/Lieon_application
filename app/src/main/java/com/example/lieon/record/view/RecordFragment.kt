@@ -112,10 +112,6 @@ class RecordFragment : Fragment() {
                             onRecordingCompleted(result)
                         }
                     }
-
-
-
-//                    onRecordingCompleted(recordId, recordViewModel.getRecentResult() ?: "null")
                 }
 
                 override fun onConversionFailure() {
