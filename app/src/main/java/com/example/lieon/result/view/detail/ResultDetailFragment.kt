@@ -67,6 +67,7 @@ class ResultDetailFragment : Fragment() {
                     testResult = recordData.testResult
                     Log.d("ResultDetailFragment", "FilePath: $filePath")
                     Log.d("ResultDetailFragment", "testResult: $testResult")
+                    binding.recordingTestResult.text = testResult
                     initializeMediaPlayer(filePath!!)
                 }
             })
